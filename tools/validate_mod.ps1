@@ -26,5 +26,15 @@ foreach ($forbidden in @('any_living_character', 'every_title', 'every_county'))
 
 if ($allText -notmatch 'title:h_greatming') { throw 'The Ming title gate is missing.' }
 if ($allText -match '(?m)^\s*(?!#).*\bhuang_quan_value\s*=') { throw 'This mod must not write the upstream huang_quan_value.' }
+if ($allText -match '(?m)^\s*(?!#).*\bchange_government\s*=') { throw 'This mod must not alter government.' }
+if ($allText -match '(?m)^\s*(?!#).*\bcreate_character\s*=') { throw 'This phase must not create characters.' }
+
+$localization = Join-Path $ModRoot 'localization\simp_chinese\minghm_policy_l_simp_chinese.yml'
+if (Test-Path -LiteralPath $localization) {
+    $locText = Get-Content -Raw -Encoding utf8 $localization
+    foreach ($key in @('minghm_policy.1000.t', 'minghm_policy.1001.t', 'minghm_policy.1002.t')) {
+        if ($locText -notmatch [regex]::Escape($key)) { throw "Missing localization key: $key" }
+    }
+}
 
 Write-Host 'Static mod structure and guard-rail checks passed.'
