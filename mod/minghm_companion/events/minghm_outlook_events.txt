@@ -5,13 +5,23 @@ character_event = {
 	title = minghm_outlook.0001.t
 	desc = minghm_outlook.0001.desc
 	theme = crown
+	widgets = {
+		widget = {
+			gui = "event_window_widget_minghm_dynastic_cycle"
+			container = "dynamic_content_widget"
+			controller = situation_info
+			setup_scope = { situation:minghm_dynastic_cycle = { save_scope_as = situation } }
+		}
+	}
 
 	trigger = { minghm_is_initialized_ming_trigger = yes }
-	immediate = { minghm_refresh_outlook_cache_effect = yes }
+	immediate = {
+		minghm_ensure_dynastic_cycle_effect = yes
+		minghm_refresh_outlook_cache_effect = yes
+	}
 
 	option = {
 		name = minghm_outlook.0001.a
 		minghm_clear_outlook_cache_effect = yes
 	}
 }
-

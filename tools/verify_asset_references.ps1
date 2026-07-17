@@ -8,11 +8,11 @@ $ErrorActionPreference = 'Stop'
 if (-not (Test-Path -LiteralPath $ModRoot)) { throw "Missing mod root: $ModRoot" }
 if (-not (Test-Path -LiteralPath $GameRoot)) { throw "Missing CK3 game root: $GameRoot" }
 
-$scriptFiles = Get-ChildItem -LiteralPath $ModRoot -Recurse -Filter '*.txt' -File
+$scriptFiles = @(Get-ChildItem -LiteralPath $ModRoot -Recurse -File | Where-Object { $_.Extension -in '.txt', '.gui' })
 $references = @()
 foreach ($scriptFile in $scriptFiles) {
     $text = Get-Content -Raw -Encoding utf8 -LiteralPath $scriptFile.FullName
-    foreach ($match in [regex]::Matches($text, 'reference\s*=\s*"([^"]+)"')) {
+    foreach ($match in [regex]::Matches($text, '(?:reference|texture|illustration|icon)\s*=\s*"(gfx/[^"]+)"')) {
         $references += $match.Groups[1].Value
     }
 }
@@ -21,9 +21,10 @@ if ($references.Count -eq 0) { throw 'No visual references found.' }
 
 $missing = @()
 foreach ($reference in $references) {
+    $modPath = Join-Path -Path $ModRoot -ChildPath $reference
     $gamePath = Join-Path -Path $GameRoot -ChildPath $reference
     $referenceModPath = Join-Path -Path $ReferenceModRoot -ChildPath $reference
-    if (-not (Test-Path -LiteralPath $gamePath) -and -not (Test-Path -LiteralPath $referenceModPath)) {
+    if (-not (Test-Path -LiteralPath $modPath) -and -not (Test-Path -LiteralPath $gamePath) -and -not (Test-Path -LiteralPath $referenceModPath)) {
         $missing += $reference
     }
 }

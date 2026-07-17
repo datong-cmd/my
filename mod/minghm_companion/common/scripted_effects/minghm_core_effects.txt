@@ -22,6 +22,56 @@ minghm_initialize_or_migrate_state_effect = {
 			}
 			minghm_clamp_core_values_effect = yes
 		}
+		minghm_ensure_dynastic_cycle_effect = yes
+	}
+}
+
+# 独立于 DLC 天朝的局势初始化与参与者同步。每次只读取当前皇帝的大学士 relation，
+# 没有全图人物/封臣扫描；失去 relation 的手动参与者会因 situation 的 valid trigger 自动失效。
+minghm_ensure_dynastic_cycle_effect = {
+	if = {
+		limit = { is_GM_emperor = yes }
+		if = {
+			limit = { NOT = { exists = situation:minghm_dynastic_cycle } }
+			start_situation = { type = minghm_dynastic_cycle }
+		}
+		situation:minghm_dynastic_cycle = { add_manual_participant = root }
+		every_relation = {
+			type = diange_daxueshi
+			situation:minghm_dynastic_cycle = { add_manual_participant = prev }
+		}
+	}
+}
+
+# 当前五档历史阶段是唯一的阶段来源。局势对象没有自己的 catalyst、duration 或 pulse。
+minghm_sync_dynastic_cycle_phase_effect = {
+	if = {
+		limit = { is_GM_emperor = yes }
+		minghm_ensure_dynastic_cycle_effect = yes
+		situation:minghm_dynastic_cycle = {
+			situation_top_sub_region = {
+				if = {
+					limit = { title:h_greatming = { var:minghm_historical_stage = 0 } NOT = { sub_region_current_phase = minghm_dynastic_cycle_phase_consolidation } }
+					change_phase = { phase = minghm_dynastic_cycle_phase_consolidation }
+				}
+				else_if = {
+					limit = { title:h_greatming = { var:minghm_historical_stage = 1 } NOT = { sub_region_current_phase = minghm_dynastic_cycle_phase_strain } }
+					change_phase = { phase = minghm_dynastic_cycle_phase_strain }
+				}
+				else_if = {
+					limit = { title:h_greatming = { var:minghm_historical_stage = 2 } NOT = { sub_region_current_phase = minghm_dynastic_cycle_phase_reform } }
+					change_phase = { phase = minghm_dynastic_cycle_phase_reform }
+				}
+				else_if = {
+					limit = { title:h_greatming = { var:minghm_historical_stage = 3 } NOT = { sub_region_current_phase = minghm_dynastic_cycle_phase_dual_power } }
+					change_phase = { phase = minghm_dynastic_cycle_phase_dual_power }
+				}
+				else_if = {
+					limit = { title:h_greatming = { var:minghm_historical_stage = 4 } NOT = { sub_region_current_phase = minghm_dynastic_cycle_phase_new_order } }
+					change_phase = { phase = minghm_dynastic_cycle_phase_new_order }
+				}
+			}
+		}
 	}
 }
 
@@ -185,6 +235,7 @@ minghm_yearly_maintenance_effect = {
 			remove_variable = minghm_stage_breakdown_score
 			remove_variable = minghm_stage_work
 		}
+		minghm_sync_dynastic_cycle_phase_effect = yes
 		if = {
 			limit = { title:h_greatming = { exists = var:minghm_stage_notification_pending } }
 			trigger_event = { id = minghm_core.0005 }

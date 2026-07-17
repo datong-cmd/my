@@ -1,0 +1,98 @@
+# 只服务于 h_greatming 的轻量局势对象。它不接管 DLC 的 dynastic_cycle，
+# 不设月度/年度 pulse，也不使用催化剂、地图模式或全图参与者。
+minghm_dynastic_cycle = {
+	illustration = "gfx/interface/illustrations/event_story/tgp_dynastic_cycle_consolidation.dds"
+	situation_group_type = minor
+	is_unique = yes
+	keep_full_history = no
+
+	sub_regions = {
+		greatming = {
+			icon = "gfx/interface/icons/situation_types/dynastic_cycle.dds"
+		}
+	}
+
+	# 自动加入关闭后，局势只保留 effect 明确写入的皇帝与在任大学士。
+	participant_groups = {
+		minghm_emperor = {
+			icon = "gfx/interface/icons/dynastic_cycle/dynastic_cycle_group_emperor.dds"
+			auto_add_rulers = no
+			auto_add_landless_rulers = no
+			require_realm_in_sub_region = no
+			is_character_valid = {
+				scope:situation = { is_manual_participant = root }
+				has_title = title:h_greatming
+			}
+		}
+		minghm_grand_secretariat = {
+			icon = "gfx/interface/icons/dynastic_cycle/dynastic_cycle_group_advance.dds"
+			auto_add_rulers = no
+			auto_add_landless_rulers = no
+			require_realm_in_sub_region = no
+			is_character_valid = {
+				scope:situation = { is_manual_participant = root }
+				has_relation_diange_daxueshi = title:h_greatming.holder
+			}
+		}
+	}
+
+	start_phase = minghm_dynastic_cycle_phase_consolidation
+
+	# 仅在首次建立时登记 h_greatming 的 de jure 范围；不登记皇帝领地，
+	# 因而不会把臣属、朝贡国或世界其他统治者纳入。
+	on_start = {
+		root.situation_sub_region:greatming = { add_dejure_title_to_sub_region = title:h_greatming }
+		title:h_greatming.holder ?= {
+			root = { add_manual_participant = prev }
+			every_relation = {
+				type = diange_daxueshi
+				root = { add_manual_participant = prev }
+			}
+		}
+	}
+
+	# 无 duration、future phase 或 catalyst：阶段只由本模组既有的年度八项力量判定显式切换。
+	phases = {
+		minghm_dynastic_cycle_phase_consolidation = {
+			icon = "gfx/interface/icons/dynastic_cycle/dynastic_cycle_phase_advancement.dds"
+			illustration = "gfx/interface/illustrations/event_story/tgp_dynastic_cycle_consolidation.dds"
+		}
+		minghm_dynastic_cycle_phase_strain = {
+			icon = "gfx/interface/icons/dynastic_cycle/dynastic_cycle_phase_instability.dds"
+			illustration = "gfx/interface/illustrations/event_story/tgp_dynastic_cycle_corruption.dds"
+		}
+		minghm_dynastic_cycle_phase_reform = {
+			icon = "gfx/interface/icons/dynastic_cycle/dynastic_cycle_phase_expansion.dds"
+			illustration = "gfx/interface/illustrations/event_story/tgp_dynastic_cycle_consolidation.dds"
+		}
+		minghm_dynastic_cycle_phase_dual_power = {
+			icon = "gfx/interface/icons/dynastic_cycle/dynastic_cycle_phase_chaos.dds"
+			illustration = "gfx/interface/illustrations/event_story/tgp_dynastic_cycle_corruption.dds"
+		}
+		minghm_dynastic_cycle_phase_new_order = {
+			icon = "gfx/interface/icons/dynastic_cycle/dynastic_cycle_phase_conquest.dds"
+			illustration = "gfx/interface/illustrations/event_story/tgp_dynastic_cycle_consolidation.dds"
+		}
+	}
+
+	icon = {
+		trigger = { situation_current_phase = minghm_dynastic_cycle_phase_consolidation }
+		reference = "gfx/interface/icons/dynastic_cycle/dynastic_cycle_phase_advancement.dds"
+	}
+	icon = {
+		trigger = { situation_current_phase = minghm_dynastic_cycle_phase_strain }
+		reference = "gfx/interface/icons/dynastic_cycle/dynastic_cycle_phase_instability.dds"
+	}
+	icon = {
+		trigger = { situation_current_phase = minghm_dynastic_cycle_phase_reform }
+		reference = "gfx/interface/icons/dynastic_cycle/dynastic_cycle_phase_expansion.dds"
+	}
+	icon = {
+		trigger = { situation_current_phase = minghm_dynastic_cycle_phase_dual_power }
+		reference = "gfx/interface/icons/dynastic_cycle/dynastic_cycle_phase_chaos.dds"
+	}
+	icon = {
+		trigger = { situation_current_phase = minghm_dynastic_cycle_phase_new_order }
+		reference = "gfx/interface/icons/dynastic_cycle/dynastic_cycle_phase_conquest.dds"
+	}
+}

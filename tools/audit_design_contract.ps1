@@ -5,6 +5,7 @@ param(
 $ErrorActionPreference = 'Stop'
 $modRoot = Join-Path $RepositoryRoot 'mod\minghm_companion'
 if (-not (Test-Path -LiteralPath $modRoot)) { throw "Missing mod root: $modRoot" }
+$modRoot = (Resolve-Path -LiteralPath $modRoot).Path
 
 $scriptFiles = Get-ChildItem -LiteralPath $modRoot -Recurse -File |
     Where-Object { $_.Extension -in '.txt', '.mod' }
@@ -46,11 +47,27 @@ foreach ($folder in @('common\buildings', 'common\men_at_arms_types', 'common\fa
     if (Test-Path -LiteralPath $path) { throw "Design-contract violation: forbidden content folder '$folder' exists" }
 }
 
-# A small, fixed text-icon set is permitted. It adds no custom window or 3D asset and is capped here.
-$allowedGui = Join-Path $modRoot 'gui\minghm_texticons.gui'
+# A small, fixed text-icon set and one read-only event widget are permitted. Neither adds 3D assets.
+$allowedGui = @(
+    (Join-Path $modRoot 'gui\minghm_texticons.gui'),
+    (Join-Path $modRoot 'gui\event_window_widgets\event_window_widget_minghm_dynastic_cycle.gui')
+)
 if (Test-Path -LiteralPath (Join-Path $modRoot 'gui')) {
     $guiFiles = @(Get-ChildItem -LiteralPath (Join-Path $modRoot 'gui') -Recurse -File)
-    if ($guiFiles.Count -ne 1 -or $guiFiles[0].FullName -ne $allowedGui) { throw 'Design-contract violation: only gui\\minghm_texticons.gui is allowed' }
+    if ($guiFiles.Count -ne $allowedGui.Count -or @($guiFiles | Where-Object { $_.FullName -notin $allowedGui }).Count -ne 0) { throw 'Design-contract violation: only the approved text-icon GUI and read-only Ming situation widget are allowed' }
+}
+
+$situationRoot = Join-Path $modRoot 'common\situation\situations'
+$allowedSituation = Join-Path $situationRoot 'minghm_dynastic_cycle.txt'
+if (-not (Test-Path -LiteralPath $allowedSituation)) { throw 'Design-contract violation: missing Ming-only dynastic-cycle situation' }
+$situationFiles = @(Get-ChildItem -LiteralPath $situationRoot -Filter '*.txt' -File)
+if ($situationFiles.Count -ne 1 -or $situationFiles[0].FullName -ne $allowedSituation) { throw 'Design-contract violation: unexpected situation definitions' }
+$situationText = Get-Content -Raw -Encoding utf8 -LiteralPath $allowedSituation
+foreach ($forbiddenSituationToken in @('on_monthly', 'on_yearly', 'catalysts', 'add_character_realm_to_sub_region', 'auto_add_rulers = yes', 'auto_add_landless_rulers = yes')) {
+    if ($situationText -match [regex]::Escape($forbiddenSituationToken)) { throw "Design-contract violation: prohibited Ming situation token '$forbiddenSituationToken'" }
+}
+foreach ($requiredSituationToken in @('is_unique = yes', 'keep_full_history = no', 'title:h_greatming', 'has_relation_diange_daxueshi', 'add_manual_participant')) {
+    if ($situationText -notmatch [regex]::Escape($requiredSituationToken)) { throw "Design-contract violation: incomplete Ming situation token '$requiredSituationToken'" }
 }
 
 $allowedIcons = @('new_order.dds', 'stage_reform.dds', 'stage_rupture.dds', 'stage_stable.dds', 'stage_strained.dds', 'technical_organization.dds')
@@ -64,4 +81,4 @@ foreach ($iconFile in $iconFiles) {
 $otherGfx = @(Get-ChildItem -LiteralPath (Join-Path $modRoot 'gfx') -Recurse -File | Where-Object { $_.DirectoryName -ne $iconRoot })
 if ($otherGfx.Count -ne 0) { throw 'Design-contract violation: custom gfx outside the six approved text icons' }
 
-Write-Host "Design contract audit passed: $decisionDefinitions Ming-only decisions, no prohibited systems, and six approved text icons."
+Write-Host "Design contract audit passed: $decisionDefinitions Ming-only decisions, one bounded Ming situation, one read-only widget, and six approved text icons."

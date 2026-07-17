@@ -1,0 +1,53 @@
+# 只读事件部件：复用 DLC 王朝兴衰轮盘的静态纹理，不调用其 C++ 专用窗口或旋转控制器。
+# Required controller: situation_info
+vbox = {
+	name = "event_window_widget_minghm_dynastic_cycle"
+	EventWindowWidget = {
+		blockoverride "situation_info_content" {
+			hbox = {
+				layoutpolicy_vertical = expanding
+				layoutpolicy_horizontal = fixed
+				spacing = 18
+				datacontext = "[EventWindowCustomWidgetSituationInfo.GetSituation]"
+				datacontext = "[GetPlayer]"
+
+				widget = {
+					size = { 180 180 }
+					icon = {
+						parentanchor = center
+						size = { 172 172 }
+						texture = "gfx/interface/window_tgp_dynastic_cycle/dynastic_cycle_wheel.dds"
+					}
+					icon = {
+						parentanchor = center
+						size = { 172 172 }
+						texture = "gfx/interface/window_tgp_dynastic_cycle/dynastic_cycle_wheel_border.dds"
+					}
+					icon = {
+						parentanchor = center
+						size = { 56 56 }
+						texture = "[Situation.GetIcon]"
+					}
+				}
+
+				SituationInfo = {
+					blockoverride "situation_tooltip" {
+						tooltipwidget = {
+							using = situation_info_tooltip
+							blockoverride "header_icon" { texture = "[Situation.GetIcon]" }
+							blockoverride "localization_text" {
+								datacontext = "[EventWindowCustomWidgetSituationInfo.GetSituation.GetTopSubRegion.GetCurrentPhase]"
+								text = "[SituationPhase.GetType.GetDesc]"
+							}
+						}
+					}
+					blockoverride "situation_icon" { texture = "[Situation.GetIcon]" }
+					blockoverride "situation_text" {
+						datacontext = "[EventWindowCustomWidgetSituationInfo.GetSituation.GetTopSubRegion.GetCurrentPhase]"
+						text = "[SituationPhase.GetType.GetName]"
+					}
+				}
+			}
+		}
+	}
+}
