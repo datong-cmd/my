@@ -201,6 +201,7 @@ minghm_cleanup_active_content_effect = {
 	remove_variable = minghm_active_mobilization
 	remove_variable = minghm_policy_id
 	remove_variable = minghm_policy_stage
+	remove_variable = minghm_policy_cabinet_mandate
 	remove_variable = minghm_policy_support
 	remove_variable = minghm_policy_capacity
 	remove_variable = minghm_policy_resistance

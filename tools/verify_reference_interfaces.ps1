@@ -16,6 +16,7 @@ $yanTrigger = Join-Path $ReferenceModRoot 'common\scripted_triggers\99_yan_trigg
 $hqEffect = Join-Path $ReferenceModRoot 'common\scripted_effects\liuguan_effects.txt'
 $partyValue = Join-Path $ReferenceModRoot 'common\script_values\liuguan_values.txt'
 $yanOnAction = Join-Path $ReferenceModRoot 'common\on_action\yan_on_action.txt'
+$regencyOnAction = Join-Path $ReferenceModRoot 'common\on_action\yan_shezheng_on_action.txt'
 $gameTitleActions = Join-Path $GameRoot 'common\on_action\title_on_actions.txt'
 $gameYearlyActions = Join-Path $GameRoot 'common\on_action\yearly_on_actions.txt'
 
@@ -27,6 +28,7 @@ Require-Text (Join-Path $ReferenceModRoot 'common\\court_positions\\types\\99_ya
 Require-Text (Join-Path $ReferenceModRoot 'common\\court_positions\\types\\99_yan_court_positions.txt') '(?m)^court_jinyiwei_position\s*=\s*\{' 'Jinyiwei court position'
 Require-Text $yanOnAction '(?ms)^on_title_gain\s*=\s*\{.*?on_actions\s*=\s*\{.*?on_title_gain_GreatMing' 'reference on_title_gain merge'
 Require-Text $yanOnAction '(?ms)^yearly_global_pulse\s*=\s*\{.*?on_actions\s*=\s*\{' 'reference yearly_global_pulse merge'
+Require-Text $regencyOnAction '(?ms)any_relation\s*=\s*\{\s*count\s*>\s*0\s*type\s*=\s*diange_daxueshi\s*has_trait\s*=\s*zhongjidian_daxueshi' 'Zhongjidian grand secretary relation'
 Require-Text $gameTitleActions '(?m)^on_title_gain\s*=\s*\{' 'base on_title_gain'
 Require-Text $gameYearlyActions '(?m)^quarterly_playable_pulse\s*=\s*\{' 'base quarterly_playable_pulse'
 Require-Text $gameYearlyActions '(?m)^yearly_global_pulse\s*=\s*\{' 'base yearly_global_pulse'

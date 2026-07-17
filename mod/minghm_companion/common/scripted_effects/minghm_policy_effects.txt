@@ -6,6 +6,7 @@ minghm_prepare_bureaucratic_reform_effect = {
 		set_variable = { name = minghm_active_content_type value = 1 }
 		set_variable = { name = minghm_policy_id value = 1 }
 		set_variable = { name = minghm_policy_stage value = 0 }
+		set_variable = { name = minghm_policy_cabinet_mandate value = 0 }
 		set_variable = { name = minghm_policy_radicality value = 60 }
 		set_variable = { name = minghm_policy_support value = 10 }
 		set_variable = { name = minghm_policy_capacity value = minghm_state_capacity_value }
@@ -43,6 +44,17 @@ minghm_begin_bureaucratic_execution_effect = {
 }
 
 minghm_bureaucratic_policy_quarterly_effect = {
+	# 此 effect 由 quarterly_playable_pulse 的明帝 scope 调用。仅检查其现有内阁 relation，不枚举宫廷或全体角色。
+	if = {
+		limit = { title:h_greatming = { var:minghm_policy_cabinet_mandate = 1 } }
+		if = {
+			limit = { any_relation = { count > 0 type = diange_daxueshi has_trait = zhongjidian_daxueshi } }
+			title:h_greatming = { change_variable = { name = minghm_policy_support add = 2 } }
+		}
+		else = {
+			title:h_greatming = { change_variable = { name = minghm_policy_resistance add = 3 } }
+		}
+	}
 	title:h_greatming = {
 		change_variable = { name = minghm_policy_progress add = 1 }
 		if = {

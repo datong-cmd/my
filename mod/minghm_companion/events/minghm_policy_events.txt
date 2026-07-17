@@ -39,6 +39,20 @@ character_event = {
 	option = {
 		name = minghm_policy.1000.c
 		desc = minghm_policy.1000.c.tt
+		trigger = { any_relation = { count > 0 type = diange_daxueshi has_trait = zhongjidian_daxueshi } }
+		title:h_greatming = {
+			set_variable = { name = minghm_policy_stage value = 1 }
+			set_variable = { name = minghm_policy_cabinet_mandate value = 1 }
+			change_variable = { name = minghm_policy_support add = 8 }
+			change_variable = { name = minghm_policy_capacity add = 6 }
+			change_variable = { name = minghm_policy_resistance add = 6 }
+		}
+		trigger_event = { id = minghm_policy.1001 days = 1 }
+	}
+
+	option = {
+		name = minghm_policy.1000.d
+		desc = minghm_policy.1000.d.tt
 		title:h_greatming = { minghm_cleanup_active_content_effect = yes }
 	}
 }
