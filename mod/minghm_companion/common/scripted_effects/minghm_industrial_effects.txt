@@ -1,0 +1,11 @@
+# 再工业化路线只代表国家持续组织技术、人才与军备标准的能力；不生产商品或建筑。
+
+minghm_unlock_technical_network_effect = {
+	title:h_greatming = {
+		set_variable = { name = minghm_industrial_stage value = 1 }
+		minghm_change_power_effect = { VARIABLE = minghm_reform_momentum DELTA = 4 REASON = 1301 }
+		minghm_change_power_effect = { VARIABLE = minghm_commercial_influence DELTA = 3 REASON = 1301 }
+		minghm_change_power_effect = { VARIABLE = minghm_conservative_power DELTA = 2 REASON = 1301 }
+	}
+}
+

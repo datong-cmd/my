@@ -26,3 +26,12 @@ minghm_can_open_foreground_content_trigger = {
 	}
 }
 
+minghm_can_start_technical_network_trigger = {
+	is_GM_emperor = yes
+	title:h_greatming = {
+		var:minghm_industrial_stage = 0
+		var:minghm_state_capacity >= 45
+		var:minghm_reform_momentum >= 30
+		NOT = { exists = var:minghm_foreground_content_active }
+	}
+}

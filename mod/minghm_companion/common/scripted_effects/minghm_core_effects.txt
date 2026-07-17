@@ -16,6 +16,7 @@ minghm_initialize_or_migrate_state_effect = {
 				set_variable = { name = minghm_commercial_influence value = 20 }
 				set_variable = { name = minghm_crisis_pressure value = 15 }
 				set_variable = { name = minghm_historical_stage value = 0 }
+				set_variable = { name = minghm_industrial_stage value = 0 }
 				set_variable = { name = minghm_stage_last_candidate value = 0 }
 			}
 			minghm_clamp_core_values_effect = yes
@@ -50,6 +51,8 @@ minghm_clamp_core_values_effect = {
 	if = { limit = { var:minghm_crisis_pressure < 0 } set_variable = { name = minghm_crisis_pressure value = 0 } }
 	if = { limit = { var:minghm_historical_stage > 4 } set_variable = { name = minghm_historical_stage value = 4 } }
 	if = { limit = { var:minghm_historical_stage < 0 } set_variable = { name = minghm_historical_stage value = 0 } }
+	if = { limit = { var:minghm_industrial_stage > 4 } set_variable = { name = minghm_industrial_stage value = 4 } }
+	if = { limit = { var:minghm_industrial_stage < 0 } set_variable = { name = minghm_industrial_stage value = 0 } }
 }
 
 # 每年仅从大明头衔进入一次；无活动时只做钳制、两年确认的阶段判定和孤儿锁兜底。

@@ -1,0 +1,8 @@
+﻿l_simp_chinese:
+ minghm_start_technical_network_decision:0 "设立技术译审与试制网络"
+ minghm_start_technical_network_decision_desc:0 "开启再工业化路线的第一阶段：以现有朝廷和承办组织持续组织技术、人才与标准，而非建立生产或市场沙盘。"
+ minghm_industrial.3000.t:0 "译审与试制网络"
+ minghm_industrial.3000.desc:0 "零散技艺无法改变国家能力。问题不在于创造一座工厂，而在于是否能让知识、试制与官署协调形成稳定组织。"
+ minghm_industrial.3000.a:0 "以官署译审与试制为主"
+ minghm_industrial.3000.b:0 "允许承办网络参与协作"
+ minghm_industrial.3000.c:0 "暂缓此议"

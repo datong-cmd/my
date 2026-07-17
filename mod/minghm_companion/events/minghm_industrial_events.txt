@@ -1,0 +1,13 @@
+namespace = minghm_industrial
+
+character_event = {
+	id = minghm_industrial.3000
+	title = minghm_industrial.3000.t
+	desc = minghm_industrial.3000.desc
+	theme = realm
+	trigger = { minghm_can_start_technical_network_trigger = yes }
+	option = { name = minghm_industrial.3000.a minghm_unlock_technical_network_effect = yes }
+	option = { name = minghm_industrial.3000.b minghm_unlock_technical_network_effect = yes title:h_greatming = { minghm_change_power_effect = { VARIABLE = minghm_commercial_influence DELTA = 4 REASON = 1302 } } }
+	option = { name = minghm_industrial.3000.c }
+}
+

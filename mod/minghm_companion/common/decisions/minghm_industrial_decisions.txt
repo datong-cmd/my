@@ -1,0 +1,9 @@
+minghm_start_technical_network_decision = {
+	picture = { reference = "gfx/interface/illustrations/decisions/decision_destiny_goal.dds" }
+	desc = minghm_start_technical_network_decision_desc
+	is_shown = { minghm_is_ming_emperor_trigger = yes }
+	is_valid_showing_failures_only = { minghm_can_start_technical_network_trigger = yes }
+	effect = { trigger_event = { id = minghm_industrial.3000 } }
+	ai_will_do = { base = 0 }
+}
+
