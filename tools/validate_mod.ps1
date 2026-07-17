@@ -8,8 +8,11 @@ $required = @(
     'common\\on_action\\minghm_on_actions.txt',
     'common\\scripted_triggers\\minghm_core_triggers.txt',
     'common\\script_values\\minghm_values.txt',
+    'common\\script_values\\minghm_outlook_values.txt',
     'common\\scripted_effects\\minghm_core_effects.txt',
-    'events\\minghm_core_events.txt'
+    'common\\scripted_effects\\minghm_outlook_effects.txt',
+    'events\\minghm_core_events.txt',
+    'events\\minghm_outlook_events.txt'
 )
 
 foreach ($relative in $required) {

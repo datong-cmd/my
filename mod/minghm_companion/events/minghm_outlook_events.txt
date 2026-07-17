@@ -1,0 +1,17 @@
+namespace = minghm_outlook
+
+character_event = {
+	id = minghm_outlook.0001
+	title = minghm_outlook.0001.t
+	desc = minghm_outlook.0001.desc
+	theme = crown
+
+	trigger = { minghm_is_initialized_ming_trigger = yes }
+	immediate = { minghm_refresh_outlook_cache_effect = yes }
+
+	option = {
+		name = minghm_outlook.0001.a
+		minghm_clear_outlook_cache_effect = yes
+	}
+}
+

@@ -1,0 +1,16 @@
+# 缓存只在当前明帝人物上短暂存在，关闭事件和年度维护都会清除。
+
+minghm_clear_outlook_cache_effect = {
+	remove_variable = minghm_outlook_cache_order
+	remove_variable = minghm_outlook_cache_change
+	remove_variable = minghm_outlook_cache_breakdown
+	remove_variable = minghm_outlook_cache_stage
+}
+
+minghm_refresh_outlook_cache_effect = {
+	minghm_clear_outlook_cache_effect = yes
+	set_variable = { name = minghm_outlook_cache_order value = minghm_outlook_order_value }
+	set_variable = { name = minghm_outlook_cache_change value = minghm_outlook_change_value }
+	set_variable = { name = minghm_outlook_cache_breakdown value = minghm_outlook_breakdown_value }
+	set_variable = { name = minghm_outlook_cache_stage value = title:h_greatming.var:minghm_historical_stage }
+}

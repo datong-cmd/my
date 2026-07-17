@@ -57,24 +57,62 @@ minghm_yearly_maintenance_effect = {
 	if = {
 		limit = { is_GM_emperor = yes }
 		minghm_initialize_or_migrate_state_effect = yes
+		minghm_clear_outlook_cache_effect = yes
 		title:h_greatming = {
 			minghm_clamp_core_values_effect = yes
 
+			# 三条局势分数只在年度判定时临时计算；不另存为长期国家数据。
+			set_variable = { name = minghm_stage_order_score value = var:minghm_state_capacity }
+			change_variable = { name = minghm_stage_order_score add = var:minghm_elite_cohesion }
+			set_variable = { name = minghm_stage_work value = 100 }
+			change_variable = { name = minghm_stage_work subtract = var:minghm_crisis_pressure }
+			change_variable = { name = minghm_stage_work multiply = 0.5 }
+			change_variable = { name = minghm_stage_order_score add = var:minghm_stage_work }
+
+			set_variable = { name = minghm_stage_change_score value = var:minghm_reform_momentum }
+			set_variable = { name = minghm_stage_work value = var:minghm_popular_mobilization }
+			change_variable = { name = minghm_stage_work multiply = 0.5 }
+			change_variable = { name = minghm_stage_change_score add = var:minghm_stage_work }
+			set_variable = { name = minghm_stage_work value = var:minghm_commercial_influence }
+			change_variable = { name = minghm_stage_work multiply = 0.25 }
+			change_variable = { name = minghm_stage_change_score add = var:minghm_stage_work }
+
+			set_variable = { name = minghm_stage_breakdown_score value = var:minghm_crisis_pressure }
+			set_variable = { name = minghm_stage_work value = var:minghm_military_autonomy }
+			change_variable = { name = minghm_stage_work multiply = 0.5 }
+			change_variable = { name = minghm_stage_breakdown_score add = var:minghm_stage_work }
+			set_variable = { name = minghm_stage_work value = var:minghm_conservative_power }
+			change_variable = { name = minghm_stage_work multiply = 0.5 }
+			change_variable = { name = minghm_stage_breakdown_score add = var:minghm_stage_work }
+			set_variable = { name = minghm_stage_work value = var:minghm_state_capacity }
+			change_variable = { name = minghm_stage_work multiply = 0.5 }
+			change_variable = { name = minghm_stage_breakdown_score subtract = var:minghm_stage_work }
+
+			# 优先级：双重权力 > 新秩序整合 > 失衡 > 改革竞争 > 稳固。
 			if = {
 				limit = {
-					var:minghm_popular_mobilization >= 75
-					var:minghm_military_autonomy >= 65
-					var:minghm_elite_cohesion <= 45
+					var:minghm_stage_breakdown_score >= 140
+					var:minghm_elite_cohesion <= 40
+					OR = { var:minghm_popular_mobilization >= 60 var:minghm_military_autonomy >= 60 }
 				}
 				set_variable = { name = minghm_stage_candidate value = 3 }
 			}
 			else_if = {
-				limit = { var:minghm_reform_momentum >= 55 var:minghm_conservative_power >= 50 }
-				set_variable = { name = minghm_stage_candidate value = 2 }
+				limit = {
+					exists = var:minghm_new_order_commitment
+					OR = { var:minghm_historical_stage = 2 var:minghm_historical_stage = 3 }
+					OR = { var:minghm_stage_order_score >= 130 var:minghm_stage_change_score >= 130 }
+					var:minghm_stage_breakdown_score < 120
+				}
+				set_variable = { name = minghm_stage_candidate value = 4 }
 			}
 			else_if = {
-				limit = { OR = { var:minghm_crisis_pressure >= 55 var:minghm_military_autonomy >= 60 } }
+				limit = { var:minghm_stage_breakdown_score >= 90 }
 				set_variable = { name = minghm_stage_candidate value = 1 }
+			}
+			else_if = {
+				limit = { var:minghm_stage_change_score >= 100 var:minghm_stage_breakdown_score < 120 }
+				set_variable = { name = minghm_stage_candidate value = 2 }
 			}
 			else = { set_variable = { name = minghm_stage_candidate value = 0 } }
 
@@ -83,6 +121,11 @@ minghm_yearly_maintenance_effect = {
 				limit = { var:minghm_stage_candidate = 3 }
 				if = { limit = { var:minghm_stage_last_candidate = 3 } set_variable = { name = minghm_historical_stage value = 3 } }
 				else = { set_variable = { name = minghm_stage_last_candidate value = 3 } }
+			}
+			else_if = {
+				limit = { var:minghm_stage_candidate = 4 }
+				if = { limit = { var:minghm_stage_last_candidate = 4 } set_variable = { name = minghm_historical_stage value = 4 } }
+				else = { set_variable = { name = minghm_stage_last_candidate value = 4 } }
 			}
 			else_if = {
 				limit = { var:minghm_stage_candidate = 2 }
@@ -106,6 +149,11 @@ minghm_yearly_maintenance_effect = {
 				}
 				minghm_cleanup_active_content_effect = yes
 			}
+
+			remove_variable = minghm_stage_order_score
+			remove_variable = minghm_stage_change_score
+			remove_variable = minghm_stage_breakdown_score
+			remove_variable = minghm_stage_work
 		}
 	}
 }

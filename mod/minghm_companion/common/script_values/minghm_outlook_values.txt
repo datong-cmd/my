@@ -1,0 +1,25 @@
+# 仅供明帝主动打开局势总览时使用；不存储经济数据，也不驱动 DLC situation。
+
+minghm_outlook_order_value = {
+	value = title:h_greatming.var:minghm_state_capacity
+	add = title:h_greatming.var:minghm_elite_cohesion
+	add = {
+		value = 100
+		subtract = title:h_greatming.var:minghm_crisis_pressure
+		multiply = 0.5
+	}
+}
+
+minghm_outlook_change_value = {
+	value = title:h_greatming.var:minghm_reform_momentum
+	add = { value = title:h_greatming.var:minghm_popular_mobilization multiply = 0.5 }
+	add = { value = title:h_greatming.var:minghm_commercial_influence multiply = 0.25 }
+}
+
+minghm_outlook_breakdown_value = {
+	value = title:h_greatming.var:minghm_crisis_pressure
+	add = { value = title:h_greatming.var:minghm_military_autonomy multiply = 0.5 }
+	add = { value = title:h_greatming.var:minghm_conservative_power multiply = 0.5 }
+	subtract = { value = title:h_greatming.var:minghm_state_capacity multiply = 0.5 }
+}
+

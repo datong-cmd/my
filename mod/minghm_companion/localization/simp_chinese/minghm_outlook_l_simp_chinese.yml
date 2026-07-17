@@ -1,0 +1,6 @@
+﻿l_simp_chinese:
+ minghm_view_realm_outlook_decision:0 "查看大明局势"
+ minghm_view_realm_outlook_decision_desc:0 "查看全国力量关系、当前历史阶段与可预见的政治走向。该信息不会改变任何数值。"
+ minghm_outlook.0001.t:0 "大明局势总览"
+ minghm_outlook.0001.desc:0 "国家并非由单一诏令推动。现有制度能力、组织力量与危机压力共同限定下一步的可能性。\n\n#V 当前历史阶段：[ROOT.Char.GetPrimaryTitle.MakeScope.Var('minghm_outlook_cache_stage').GetValue|V0]#!\n#V 秩序整合力：[ROOT.Char.MakeScope.Var('minghm_outlook_cache_order').GetValue|V0]#!\n#V 变革推动力：[ROOT.Char.MakeScope.Var('minghm_outlook_cache_change').GetValue|V0]#!\n#V 秩序解体力：[ROOT.Char.MakeScope.Var('minghm_outlook_cache_breakdown').GetValue|V0]#!\n\n这些分数只用于解释当前力量对比；年度阶段判定仍以同一公式进行两次确认，避免短期波动造成跳档。"
+ minghm_outlook.0001.a:0 "收起局势图"
