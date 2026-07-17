@@ -1,0 +1,16 @@
+namespace = minghm_core
+
+# 继承、篡夺或复国后延迟两天执行，避开《变身大明》同一批 on_title_gain 的状态调整。
+character_event = {
+	id = minghm_core.0002
+	hide_window = yes
+	is_triggered_only = yes
+
+	immediate = {
+		if = {
+			limit = { is_GM_emperor = yes }
+			minghm_initialize_or_migrate_state_effect = yes
+		}
+	}
+}
+

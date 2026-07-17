@@ -1,0 +1,42 @@
+# 仅追加原有 on_action；不覆盖本体、DLC 或《变身大明》的同名内容。
+
+on_game_start_after_lobby = {
+	on_actions = { minghm_game_start_after_lobby }
+}
+
+on_title_gain = {
+	on_actions = { minghm_title_gain_initialize }
+}
+
+yearly_global_pulse = {
+	on_actions = { minghm_yearly_global_maintenance }
+}
+
+minghm_game_start_after_lobby = {
+	effect = {
+		title:h_greatming = {
+			if = {
+				limit = { exists = holder }
+				holder = { minghm_initialize_or_migrate_state_effect = yes }
+			}
+		}
+	}
+}
+
+# 不比较 scope:title，避免在非标准授予路径中丢失初始化；title gain 稀少且 effect 幂等。
+minghm_title_gain_initialize = {
+	trigger = { is_GM_emperor = yes }
+	effect = { trigger_event = { id = minghm_core.0002 days = 2 } }
+}
+
+minghm_yearly_global_maintenance = {
+	effect = {
+		title:h_greatming = {
+			if = {
+				limit = { exists = holder }
+				holder = { minghm_yearly_maintenance_effect = yes }
+			}
+		}
+	}
+}
+

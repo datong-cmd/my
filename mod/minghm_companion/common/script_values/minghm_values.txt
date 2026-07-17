@@ -1,0 +1,11 @@
+# 仅作为后续事件、决议和 tooltip 的统一读口；数值权威存储在 h_greatming。
+
+minghm_state_capacity_value = { value = title:h_greatming.var:minghm_state_capacity }
+minghm_reform_momentum_value = { value = title:h_greatming.var:minghm_reform_momentum }
+minghm_conservative_power_value = { value = title:h_greatming.var:minghm_conservative_power }
+minghm_popular_mobilization_value = { value = title:h_greatming.var:minghm_popular_mobilization }
+minghm_elite_cohesion_value = { value = title:h_greatming.var:minghm_elite_cohesion }
+minghm_military_autonomy_value = { value = title:h_greatming.var:minghm_military_autonomy }
+minghm_commercial_influence_value = { value = title:h_greatming.var:minghm_commercial_influence }
+minghm_crisis_pressure_value = { value = title:h_greatming.var:minghm_crisis_pressure }
+

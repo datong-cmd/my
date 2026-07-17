@@ -1,0 +1,128 @@
+# 长期数据仅写入 title:h_greatming；不扫描人物、封臣或地图。
+
+minghm_initialize_or_migrate_state_effect = {
+	if = {
+		limit = { is_GM_emperor = yes }
+		title:h_greatming = {
+			if = {
+				limit = { NOT = { exists = var:minghm_schema_version } }
+				set_variable = { name = minghm_schema_version value = 1 }
+				set_variable = { name = minghm_state_capacity value = 50 }
+				set_variable = { name = minghm_reform_momentum value = 25 }
+				set_variable = { name = minghm_conservative_power value = 60 }
+				set_variable = { name = minghm_popular_mobilization value = 20 }
+				set_variable = { name = minghm_elite_cohesion value = 60 }
+				set_variable = { name = minghm_military_autonomy value = 35 }
+				set_variable = { name = minghm_commercial_influence value = 20 }
+				set_variable = { name = minghm_crisis_pressure value = 15 }
+				set_variable = { name = minghm_historical_stage value = 0 }
+				set_variable = { name = minghm_stage_last_candidate value = 0 }
+			}
+			minghm_clamp_core_values_effect = yes
+		}
+	}
+}
+
+# 参数化写入口。调用时必须在 title:h_greatming scope 内：
+# minghm_change_power_effect = { VARIABLE = minghm_state_capacity DELTA = 5 REASON = 100 }
+minghm_change_power_effect = {
+	change_variable = { name = $VARIABLE$ add = $DELTA$ }
+	set_variable = { name = minghm_last_change_reason value = $REASON$ }
+	minghm_clamp_core_values_effect = yes
+}
+
+minghm_clamp_core_values_effect = {
+	if = { limit = { var:minghm_state_capacity > 100 } set_variable = { name = minghm_state_capacity value = 100 } }
+	if = { limit = { var:minghm_state_capacity < 0 } set_variable = { name = minghm_state_capacity value = 0 } }
+	if = { limit = { var:minghm_reform_momentum > 100 } set_variable = { name = minghm_reform_momentum value = 100 } }
+	if = { limit = { var:minghm_reform_momentum < 0 } set_variable = { name = minghm_reform_momentum value = 0 } }
+	if = { limit = { var:minghm_conservative_power > 100 } set_variable = { name = minghm_conservative_power value = 100 } }
+	if = { limit = { var:minghm_conservative_power < 0 } set_variable = { name = minghm_conservative_power value = 0 } }
+	if = { limit = { var:minghm_popular_mobilization > 100 } set_variable = { name = minghm_popular_mobilization value = 100 } }
+	if = { limit = { var:minghm_popular_mobilization < 0 } set_variable = { name = minghm_popular_mobilization value = 0 } }
+	if = { limit = { var:minghm_elite_cohesion > 100 } set_variable = { name = minghm_elite_cohesion value = 100 } }
+	if = { limit = { var:minghm_elite_cohesion < 0 } set_variable = { name = minghm_elite_cohesion value = 0 } }
+	if = { limit = { var:minghm_military_autonomy > 100 } set_variable = { name = minghm_military_autonomy value = 100 } }
+	if = { limit = { var:minghm_military_autonomy < 0 } set_variable = { name = minghm_military_autonomy value = 0 } }
+	if = { limit = { var:minghm_commercial_influence > 100 } set_variable = { name = minghm_commercial_influence value = 100 } }
+	if = { limit = { var:minghm_commercial_influence < 0 } set_variable = { name = minghm_commercial_influence value = 0 } }
+	if = { limit = { var:minghm_crisis_pressure > 100 } set_variable = { name = minghm_crisis_pressure value = 100 } }
+	if = { limit = { var:minghm_crisis_pressure < 0 } set_variable = { name = minghm_crisis_pressure value = 0 } }
+	if = { limit = { var:minghm_historical_stage > 4 } set_variable = { name = minghm_historical_stage value = 4 } }
+	if = { limit = { var:minghm_historical_stage < 0 } set_variable = { name = minghm_historical_stage value = 0 } }
+}
+
+# 每年仅从大明头衔进入一次；无活动时只做钳制、两年确认的阶段判定和孤儿锁兜底。
+minghm_yearly_maintenance_effect = {
+	if = {
+		limit = { is_GM_emperor = yes }
+		minghm_initialize_or_migrate_state_effect = yes
+		title:h_greatming = {
+			minghm_clamp_core_values_effect = yes
+
+			if = {
+				limit = {
+					var:minghm_popular_mobilization >= 75
+					var:minghm_military_autonomy >= 65
+					var:minghm_elite_cohesion <= 45
+				}
+				set_variable = { name = minghm_stage_candidate value = 3 }
+			}
+			else_if = {
+				limit = { var:minghm_reform_momentum >= 55 var:minghm_conservative_power >= 50 }
+				set_variable = { name = minghm_stage_candidate value = 2 }
+			}
+			else_if = {
+				limit = { OR = { var:minghm_crisis_pressure >= 55 var:minghm_military_autonomy >= 60 } }
+				set_variable = { name = minghm_stage_candidate value = 1 }
+			}
+			else = { set_variable = { name = minghm_stage_candidate value = 0 } }
+
+			# 以显式枚举替代变量对变量比较，确保 Clausewitz 解析器兼容性。
+			if = {
+				limit = { var:minghm_stage_candidate = 3 }
+				if = { limit = { var:minghm_stage_last_candidate = 3 } set_variable = { name = minghm_historical_stage value = 3 } }
+				else = { set_variable = { name = minghm_stage_last_candidate value = 3 } }
+			}
+			else_if = {
+				limit = { var:minghm_stage_candidate = 2 }
+				if = { limit = { var:minghm_stage_last_candidate = 2 } set_variable = { name = minghm_historical_stage value = 2 } }
+				else = { set_variable = { name = minghm_stage_last_candidate value = 2 } }
+			}
+			else_if = {
+				limit = { var:minghm_stage_candidate = 1 }
+				if = { limit = { var:minghm_stage_last_candidate = 1 } set_variable = { name = minghm_historical_stage value = 1 } }
+				else = { set_variable = { name = minghm_stage_last_candidate value = 1 } }
+			}
+			else = {
+				if = { limit = { var:minghm_stage_last_candidate = 0 } set_variable = { name = minghm_historical_stage value = 0 } }
+				else = { set_variable = { name = minghm_stage_last_candidate value = 0 } }
+			}
+
+			if = {
+				limit = {
+					exists = var:minghm_foreground_content_active
+					NOT = { exists = var:minghm_active_content_type }
+				}
+				minghm_cleanup_active_content_effect = yes
+			}
+		}
+	}
+}
+
+# 所有政策、案件、危机和大型链完成、取消、死亡或失主出口共用此 effect。
+# 此阶段只清除本模组活动槽，不触碰《变身大明》的变量、官职、关系或特质。
+minghm_cleanup_active_content_effect = {
+	remove_variable = minghm_foreground_content_active
+	remove_variable = minghm_active_content_type
+	remove_variable = minghm_active_mobilization
+	remove_variable = minghm_policy_id
+	remove_variable = minghm_policy_stage
+	remove_variable = minghm_policy_support
+	remove_variable = minghm_policy_capacity
+	remove_variable = minghm_policy_resistance
+	remove_variable = minghm_policy_radicality
+	remove_variable = minghm_case_id
+	remove_variable = minghm_crisis_id
+	set_variable = { name = minghm_last_cleanup_marker value = 1 years = 1 }
+}

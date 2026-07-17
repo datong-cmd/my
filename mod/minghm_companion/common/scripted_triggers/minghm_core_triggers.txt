@@ -1,0 +1,28 @@
+# 明制伴生扩展的所有入口都必须先经过这些门控。
+# is_GM_emperor 来自《变身大明》99_yan_triggers.txt，只读使用。
+
+minghm_is_ming_emperor_trigger = {
+	is_GM_emperor = yes
+}
+
+minghm_is_initialized_ming_trigger = {
+	is_GM_emperor = yes
+	title:h_greatming = {
+		exists = var:minghm_schema_version
+	}
+}
+
+minghm_has_foreground_content_trigger = {
+	is_GM_emperor = yes
+	title:h_greatming = {
+		exists = var:minghm_foreground_content_active
+	}
+}
+
+minghm_can_open_foreground_content_trigger = {
+	is_GM_emperor = yes
+	title:h_greatming = {
+		NOT = { exists = var:minghm_foreground_content_active }
+	}
+}
+
