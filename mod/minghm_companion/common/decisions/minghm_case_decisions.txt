@@ -1,6 +1,6 @@
 # M4：程序性案件。只读原模组职位存在性，不借用其弹劾事件的人物 saved scope。
 minghm_open_procedural_case_decision = {
-	picture = { reference = "gfx/interface/illustrations/decisions/decision_court.dds" }
+	picture = { reference = "gfx/interface/illustrations/decisions/decision_realm.dds" }
 	desc = minghm_open_procedural_case_decision_desc
 	is_shown = { minghm_is_ming_emperor_trigger = yes }
 	is_valid_showing_failures_only = {

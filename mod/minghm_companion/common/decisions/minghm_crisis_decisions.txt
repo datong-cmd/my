@@ -12,7 +12,7 @@ minghm_address_military_crisis_decision = {
 }
 
 minghm_address_court_crisis_decision = {
-	picture = { reference = "gfx/interface/illustrations/decisions/decision_court.dds" }
+	picture = { reference = "gfx/interface/illustrations/decisions/decision_realm.dds" }
 	desc = minghm_address_court_crisis_decision_desc
 	is_shown = { minghm_is_ming_emperor_trigger = yes }
 	is_valid_showing_failures_only = {
