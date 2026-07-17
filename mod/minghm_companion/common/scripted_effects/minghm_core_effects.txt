@@ -122,6 +122,10 @@ minghm_cleanup_active_content_effect = {
 	remove_variable = minghm_policy_capacity
 	remove_variable = minghm_policy_resistance
 	remove_variable = minghm_policy_radicality
+	remove_variable = minghm_policy_progress
+	remove_variable = minghm_policy_support_half
+	remove_variable = minghm_policy_result
+	remove_variable = minghm_policy_random
 	remove_variable = minghm_case_id
 	remove_variable = minghm_crisis_id
 	set_variable = { name = minghm_last_cleanup_marker value = 1 years = 1 }

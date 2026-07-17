@@ -1,0 +1,96 @@
+# M3：唯一的政策垂直切片——官僚考成重整。所有数值写入仍经 h_greatming。
+
+minghm_prepare_bureaucratic_reform_effect = {
+	title:h_greatming = {
+		set_variable = { name = minghm_foreground_content_active value = 1 }
+		set_variable = { name = minghm_active_content_type value = 1 }
+		set_variable = { name = minghm_policy_id value = 1 }
+		set_variable = { name = minghm_policy_stage value = 0 }
+		set_variable = { name = minghm_policy_radicality value = 60 }
+		set_variable = { name = minghm_policy_support value = 10 }
+		set_variable = { name = minghm_policy_capacity value = minghm_state_capacity_value }
+		set_variable = { name = minghm_policy_resistance value = minghm_conservative_power_value }
+
+		# 只读《变身大明》的内阁关系：有大学士在廷即代表可用的协调渠道。
+		if = {
+			limit = { root = { any_relation = { count > 0 type = diange_daxueshi } } }
+			change_variable = { name = minghm_policy_capacity add = 10 }
+			change_variable = { name = minghm_policy_support add = 10 }
+		}
+		else = { change_variable = { name = minghm_policy_capacity subtract = 10 } }
+
+		# 只读既有朋党影响；不创建第二套党派或人物名册。
+		if = {
+			limit = { root = { pengdang_yingxiang_score >= 300 } }
+			change_variable = { name = minghm_policy_resistance add = 10 }
+		}
+		else_if = {
+			limit = { root = { pengdang_yingxiang_score >= 100 } }
+			change_variable = { name = minghm_policy_resistance add = 5 }
+		}
+
+		if = { limit = { var:minghm_reform_momentum >= 40 } change_variable = { name = minghm_policy_support add = 10 } }
+		if = { limit = { var:minghm_elite_cohesion >= 60 } change_variable = { name = minghm_policy_support add = 5 } }
+		if = { limit = { var:minghm_crisis_pressure >= 55 } change_variable = { name = minghm_policy_resistance add = 10 } }
+	}
+}
+
+minghm_begin_bureaucratic_execution_effect = {
+	title:h_greatming = {
+		set_variable = { name = minghm_policy_stage value = 4 }
+		set_variable = { name = minghm_policy_progress value = 0 }
+	}
+}
+
+minghm_bureaucratic_policy_quarterly_effect = {
+	title:h_greatming = {
+		change_variable = { name = minghm_policy_progress add = 1 }
+		if = {
+			limit = { var:minghm_policy_progress >= 8 }
+			trigger_event = { id = minghm_policy.1002 }
+		}
+	}
+}
+
+minghm_resolve_bureaucratic_reform_effect = {
+	title:h_greatming = {
+		set_variable = { name = minghm_policy_support_half value = var:minghm_policy_support }
+		change_variable = { name = minghm_policy_support_half multiply = 0.5 }
+		set_variable = { name = minghm_policy_result value = var:minghm_policy_capacity }
+		change_variable = { name = minghm_policy_result add = var:minghm_policy_support_half }
+		change_variable = { name = minghm_policy_result subtract = var:minghm_policy_resistance }
+		set_variable = { name = minghm_policy_random value = { 0 10 } }
+		change_variable = { name = minghm_policy_result add = var:minghm_policy_random }
+	}
+}
+
+minghm_finish_bureaucratic_reform_effect = {
+	title:h_greatming = {
+		if = {
+			limit = { var:minghm_policy_result >= 70 }
+			minghm_change_power_effect = { VARIABLE = minghm_state_capacity DELTA = 6 REASON = 1101 }
+			minghm_change_power_effect = { VARIABLE = minghm_reform_momentum DELTA = 5 REASON = 1101 }
+			minghm_change_power_effect = { VARIABLE = minghm_conservative_power DELTA = -5 REASON = 1101 }
+			minghm_change_power_effect = { VARIABLE = minghm_elite_cohesion DELTA = 2 REASON = 1101 }
+		}
+		else_if = {
+			limit = { var:minghm_policy_result >= 40 }
+			minghm_change_power_effect = { VARIABLE = minghm_state_capacity DELTA = 2 REASON = 1102 }
+			minghm_change_power_effect = { VARIABLE = minghm_reform_momentum DELTA = 2 REASON = 1102 }
+			minghm_change_power_effect = { VARIABLE = minghm_conservative_power DELTA = -2 REASON = 1102 }
+		}
+		else_if = {
+			limit = { var:minghm_policy_result >= 10 }
+			minghm_change_power_effect = { VARIABLE = minghm_reform_momentum DELTA = -2 REASON = 1103 }
+			minghm_change_power_effect = { VARIABLE = minghm_conservative_power DELTA = 2 REASON = 1103 }
+			minghm_change_power_effect = { VARIABLE = minghm_crisis_pressure DELTA = 4 REASON = 1103 }
+		}
+		else = {
+			minghm_change_power_effect = { VARIABLE = minghm_state_capacity DELTA = -5 REASON = 1104 }
+			minghm_change_power_effect = { VARIABLE = minghm_reform_momentum DELTA = -4 REASON = 1104 }
+			minghm_change_power_effect = { VARIABLE = minghm_conservative_power DELTA = 5 REASON = 1104 }
+			minghm_change_power_effect = { VARIABLE = minghm_crisis_pressure DELTA = 8 REASON = 1104 }
+		}
+	}
+}
+

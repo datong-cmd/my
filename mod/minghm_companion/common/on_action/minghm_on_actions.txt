@@ -12,6 +12,10 @@ yearly_global_pulse = {
 	on_actions = { minghm_yearly_global_maintenance }
 }
 
+quarterly_playable_pulse = {
+	on_actions = { minghm_policy_quarterly_pulse }
+}
+
 minghm_game_start_after_lobby = {
 	effect = {
 		title:h_greatming = {
@@ -40,3 +44,15 @@ minghm_yearly_global_maintenance = {
 	}
 }
 
+minghm_policy_quarterly_pulse = {
+	trigger = {
+		is_GM_emperor = yes
+		title:h_greatming = {
+			exists = var:minghm_foreground_content_active
+			var:minghm_active_content_type = 1
+			var:minghm_policy_id = 1
+			var:minghm_policy_stage = 4
+		}
+	}
+	effect = { minghm_bureaucratic_policy_quarterly_effect = yes }
+}
