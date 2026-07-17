@@ -35,3 +35,17 @@ minghm_can_start_technical_network_trigger = {
 		NOT = { exists = var:minghm_foreground_content_active }
 	}
 }
+
+# 仅检查明帝当前宫廷；缺员时案件路线降级，不生成替代角色。
+minghm_has_dali_institution_trigger = {
+	is_GM_emperor = yes
+	any_courtier = { count > 0 has_court_position = court_dalisiqing_position }
+}
+
+minghm_has_jinyiwei_institution_trigger = {
+	is_GM_emperor = yes
+	any_courtier = {
+		count > 0
+		OR = { has_court_position = court_jinyiwei_position has_trait = jinyiwei }
+	}
+}

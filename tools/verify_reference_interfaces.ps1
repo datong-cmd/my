@@ -23,6 +23,8 @@ Require-Text $yanTrigger '(?ms)^is_GM_emperor\s*=\s*\{.*?has_title\s*=\s*title:h
 Require-Text $hqEffect '(?ms)^HQ_change\s*=\s*\{.*?\$CHECK\$\s*=\s*202301102000.*?\$CHECK\$\s*=\s*437639088' 'HQ_change accepted checks'
 Require-Text $hqEffect '(?ms)^HQ_change\s*=\s*\{.*?name\s*=\s*huang_quan_value.*?var:huang_quan_value\s*>\s*2000.*?var:huang_quan_value\s*<\s*-500' 'HQ_change variable and clamp'
 Require-Text $partyValue '(?m)^pengdang_yingxiang_score\s*=\s*\{' 'pengdang_yingxiang_score'
+Require-Text (Join-Path $ReferenceModRoot 'common\\court_positions\\types\\99_yan_court_positions.txt') '(?m)^court_dalisiqing_position\s*=\s*\{' 'Dali court position'
+Require-Text (Join-Path $ReferenceModRoot 'common\\court_positions\\types\\99_yan_court_positions.txt') '(?m)^court_jinyiwei_position\s*=\s*\{' 'Jinyiwei court position'
 Require-Text $yanOnAction '(?ms)^on_title_gain\s*=\s*\{.*?on_actions\s*=\s*\{.*?on_title_gain_GreatMing' 'reference on_title_gain merge'
 Require-Text $yanOnAction '(?ms)^yearly_global_pulse\s*=\s*\{.*?on_actions\s*=\s*\{' 'reference yearly_global_pulse merge'
 Require-Text $gameTitleActions '(?m)^on_title_gain\s*=\s*\{' 'base on_title_gain'
