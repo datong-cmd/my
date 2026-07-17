@@ -1,6 +1,6 @@
 # 27A AI 编码交付总实施书
 
-> 这是后续 AI 生成 Mod 代码时的唯一入口。旧文档用于设计来源和反查，不得凌驾于施工版 `22–27`。
+> 这是后续 AI 生成 Mod 代码时的唯一入口。源码事实按需从 `01—10` 反查，不得凌驾于施工版 `22—30G`。
 
 ## 1. 最终产品定义
 
@@ -13,10 +13,10 @@
 1. 强制边界：`22、22A、24、25A、27A`；
 2. 机制施工：`23、23A、23B、23C、25、26、26A、26B`；
 3. 美术/测试：`27`；
-4. 代码格式与旧索引：`18、18A、18B、21A`；
-5. `01–21` 其余文档仅为研究资料。
+4. 事件链与转盘：`29、29A、30、30A—30G`；
+5. 源码事实：`01、02、02A、03、05—10、21`，仅按需读取。
 
-冲突时以前一层为准。尤其 `11/11A/11B/11C/14A` 不得实现，`15A` 只保留 26A 的组织政治抽象。
+冲突时以前一层为准。财政、区域生产、市场、人口、跨政权、通用框架、新兵种和新政体的早期文档已经删除，不得从 Git 历史恢复为实现要求。
 
 ## 3. MVP 文件清单
 
@@ -25,7 +25,7 @@ descriptor.mod
 common/on_action/minghm_on_actions.txt
 common/scripted_triggers/minghm_core_triggers.txt
 common/scripted_triggers/minghm_politics_triggers.txt
-common/scripted_values/minghm_values.txt
+common/script_values/minghm_values.txt
 common/scripted_effects/minghm_core_effects.txt
 common/scripted_effects/minghm_politics_effects.txt
 common/decisions/minghm_decisions.txt
@@ -52,7 +52,7 @@ localization/simp_chinese/minghm_l_simp_chinese.yml
 
 ### 单活动槽
 
-政策、案件、危机字段严格按 `23/23C/26`；同类同时一个。所有人物 saved scopes 和临时 flags/modifiers 按 `25A` 清理。
+政策、案件、危机字段严格按 `23/23C/26`，并与大型事件链共用 `minghm_foreground_content_active`。同一时间只推进一种复杂内容；大型链内部需要案件/政策数值时使用链字段，不另开槽。所有人物 saved scopes 和临时 flags/modifiers 按 `25A` 清理。
 
 ### 上游只读/适配
 
@@ -118,7 +118,7 @@ localization/simp_chinese/minghm_l_simp_chinese.yml
 
 ## 9. 大型事件链增补交付规则
 
-大型事件链必须先读 `30/30A—30G`。权威状态放在 `h_greatming`，`story_cycle` 只作玩家进度展示；全国同时最多一条，AI 不创建可见 story。不得将旧 `16/16A` 中的财政、市场、区域生产或通用国家模板带入实现。
+大型事件链必须先读 `30/30A—30G`。权威状态放在 `h_greatming`，`story_cycle` 只作玩家进度展示；全国同时最多一条，AI 不创建可见 story。
 
 ```text
 common/story_cycles/minghm_major_chain_story.txt
