@@ -41,9 +41,27 @@ $dependencyPattern = 'dependencies\s*=\s*\{\s*"' + [regex]::Escape($dependencyNa
 if ($outerDescriptor -notmatch $dependencyPattern) { throw 'Missing upstream dependency in outer descriptor' }
 if ($innerDescriptor -notmatch $dependencyPattern) { throw 'Missing upstream dependency in inner descriptor' }
 
-foreach ($folder in @('gfx', 'gui', 'common\buildings', 'common\men_at_arms_types', 'common\factions')) {
+foreach ($folder in @('common\buildings', 'common\men_at_arms_types', 'common\factions')) {
     $path = Join-Path $modRoot $folder
     if (Test-Path -LiteralPath $path) { throw "Design-contract violation: forbidden content folder '$folder' exists" }
 }
 
-Write-Host "Design contract audit passed: $decisionDefinitions Ming-only decisions, no prohibited systems or assets."
+# A small, fixed text-icon set is permitted. It adds no custom window or 3D asset and is capped here.
+$allowedGui = Join-Path $modRoot 'gui\minghm_texticons.gui'
+if (Test-Path -LiteralPath (Join-Path $modRoot 'gui')) {
+    $guiFiles = @(Get-ChildItem -LiteralPath (Join-Path $modRoot 'gui') -Recurse -File)
+    if ($guiFiles.Count -ne 1 -or $guiFiles[0].FullName -ne $allowedGui) { throw 'Design-contract violation: only gui\\minghm_texticons.gui is allowed' }
+}
+
+$allowedIcons = @('new_order.dds', 'stage_reform.dds', 'stage_rupture.dds', 'stage_stable.dds', 'stage_strained.dds', 'technical_organization.dds')
+$iconRoot = Join-Path $modRoot 'gfx\interface\icons\minghm'
+if (-not (Test-Path -LiteralPath $iconRoot)) { throw 'Design-contract violation: missing approved Ming text-icon directory' }
+$iconFiles = @(Get-ChildItem -LiteralPath $iconRoot -File)
+if ($iconFiles.Count -ne $allowedIcons.Count) { throw 'Design-contract violation: unexpected custom icon count' }
+foreach ($iconFile in $iconFiles) {
+    if ($iconFile.Extension -ne '.dds' -or $iconFile.Name -notin $allowedIcons -or $iconFile.Length -gt 32768) { throw "Design-contract violation: unapproved custom icon '$($iconFile.Name)'" }
+}
+$otherGfx = @(Get-ChildItem -LiteralPath (Join-Path $modRoot 'gfx') -Recurse -File | Where-Object { $_.DirectoryName -ne $iconRoot })
+if ($otherGfx.Count -ne 0) { throw 'Design-contract violation: custom gfx outside the six approved text icons' }
+
+Write-Host "Design contract audit passed: $decisionDefinitions Ming-only decisions, no prohibited systems, and six approved text icons."

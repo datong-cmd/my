@@ -1,0 +1,60 @@
+# Six self-contained text icons. This adds no window, widget, animation, or update loop.
+texticon = {
+	icon = minghm_stage_stable
+	iconsize = {
+		texture = "gfx/interface/icons/minghm/stage_stable.dds"
+		size = { 24 24 }
+		offset = { 0 5 }
+		fontsize = 16
+	}
+}
+
+texticon = {
+	icon = minghm_stage_strained
+	iconsize = {
+		texture = "gfx/interface/icons/minghm/stage_strained.dds"
+		size = { 24 24 }
+		offset = { 0 5 }
+		fontsize = 16
+	}
+}
+
+texticon = {
+	icon = minghm_stage_reform
+	iconsize = {
+		texture = "gfx/interface/icons/minghm/stage_reform.dds"
+		size = { 24 24 }
+		offset = { 0 5 }
+		fontsize = 16
+	}
+}
+
+texticon = {
+	icon = minghm_stage_rupture
+	iconsize = {
+		texture = "gfx/interface/icons/minghm/stage_rupture.dds"
+		size = { 24 24 }
+		offset = { 0 5 }
+		fontsize = 16
+	}
+}
+
+texticon = {
+	icon = minghm_technical_organization
+	iconsize = {
+		texture = "gfx/interface/icons/minghm/technical_organization.dds"
+		size = { 24 24 }
+		offset = { 0 5 }
+		fontsize = 16
+	}
+}
+
+texticon = {
+	icon = minghm_new_order
+	iconsize = {
+		texture = "gfx/interface/icons/minghm/new_order.dds"
+		size = { 24 24 }
+		offset = { 0 5 }
+		fontsize = 16
+	}
+}

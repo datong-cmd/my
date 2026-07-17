@@ -1,0 +1,3 @@
+# Large editable source renders and inspection sheets remain local; the 64px DDS files in mod/ are the shipped assets.
+artwork/source/
+artwork/processed/
