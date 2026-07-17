@@ -34,10 +34,12 @@ common/modifiers/minghm_modifiers.txt
 events/minghm_core_events.txt
 events/minghm_policy_events.txt
 events/minghm_crisis_events.txt
+events/minghm_outlook_events.txt
+gui/event_window_widgets/event_window_widget_minghm_outlook.gui
 localization/simp_chinese/minghm_l_simp_chinese.yml
 ```
 
-MVP 不创建 GUI、trait、building、government、culture、faith、faction、MAA 或美术文件。后续革命战争仅新增独立 `common/casus_belli_types/minghm_revolution_cb.txt`。
+除 `29` 规定的独立事件 widget 外，MVP 不创建 GUI；不创建 trait、building、government、culture、faith、faction、MAA 或美术文件。后续革命战争仅新增独立 `common/casus_belli_types/minghm_revolution_cb.txt`。该 widget 不覆盖 HUD、公共 GUI 或 DLC 原转盘窗口。
 
 ## 4. 数据字典冻结
 
@@ -64,6 +66,7 @@ MVP 不创建 GUI、trait、building、government、culture、faith、faction、
 | M1 | Ming trigger、初始化、休眠/恢复、统一清理 | 新局/旧档/继承/复国安全 |
 | M2 | 八项值、统一修改 effect、年度阶段判定 | 范围钳制、阶段防抖、非明零运行 |
 | M3 | 一个“官僚考成重整”政策垂直切片 | 完整数字对抗与反馈清理 |
+| M3A | 三司制王朝局势转盘 | 五阶段与三分数正确显示，零天朝耦合，缓存可清理 |
 | M4 | 皇权、官位、朋党适配器 | 探针失败能降级，不写上游数据 |
 | M5 | 改革专员与改革案件 | 复用人物、无身份复制、无悬挂作用域 |
 | M6 | 六项改革与六类危机 | 模板共享状态机，无重复脚本爆炸 |
@@ -97,6 +100,7 @@ MVP 不创建 GUI、trait、building、government、culture、faith、faction、
 - 不使用 `any_living_character` 或全地图循环；
 - 不覆盖公共文件和 GUI；
 - 不复制美术；
+- 王朝转盘只按 `29/29A` 复用 DLC 静态轮盘资产，不创建或覆盖原 `dynastic_cycle` situation；
 - 每个状态机同时写取消、死亡、失效、继承和清理路径；
 - 注释标出上游耦合点及版本探针。
 
@@ -111,4 +115,3 @@ MVP 不创建 GUI、trait、building、government、culture、faith、faction、
 - 性能和对象上限通过 100 年长跑；
 - 无已弃用经济系统、人物膨胀或资产复制；
 - T0–T7 全通过，T8 失败时革命战争桥安全关闭。
-
