@@ -74,3 +74,17 @@ character_event = {
 	}
 	option = { name = minghm_core.0004.b }
 }
+
+# 阶段通知不写任何数值；它只解释年度单点判定已经发生的状态转换。
+character_event = {
+	id = minghm_core.0005
+	title = minghm_core.0005.t
+	desc = minghm_core.0005.desc
+	theme = realm
+	immediate = { title:h_greatming = { remove_variable = minghm_stage_notification_pending } }
+	option = { name = minghm_core.0005.a trigger = { title:h_greatming = { var:minghm_historical_stage = 0 } } }
+	option = { name = minghm_core.0005.b trigger = { title:h_greatming = { var:minghm_historical_stage = 1 } } }
+	option = { name = minghm_core.0005.c trigger = { title:h_greatming = { var:minghm_historical_stage = 2 } } }
+	option = { name = minghm_core.0005.d trigger = { title:h_greatming = { var:minghm_historical_stage = 3 } } }
+	option = { name = minghm_core.0005.e trigger = { title:h_greatming = { var:minghm_historical_stage = 4 } } }
+}

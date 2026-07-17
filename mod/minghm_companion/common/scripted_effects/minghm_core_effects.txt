@@ -18,6 +18,7 @@ minghm_initialize_or_migrate_state_effect = {
 				set_variable = { name = minghm_historical_stage value = 0 }
 				set_variable = { name = minghm_industrial_stage value = 0 }
 				set_variable = { name = minghm_stage_last_candidate value = 0 }
+				set_variable = { name = minghm_stage_last_notified value = 0 }
 			}
 			minghm_clamp_core_values_effect = yes
 		}
@@ -145,6 +146,32 @@ minghm_yearly_maintenance_effect = {
 				else = { set_variable = { name = minghm_stage_last_candidate value = 0 } }
 			}
 
+			# 只有两年防抖后的实际阶段改变才排队一次可见反馈；年度判定本身仍只有单点常数成本。
+			if = {
+				limit = { var:minghm_historical_stage = 0 }
+				if = { limit = { NOT = { exists = var:minghm_stage_last_notified } } set_variable = { name = minghm_stage_last_notified value = 0 } }
+				else_if = { limit = { NOT = { var:minghm_stage_last_notified = 0 } } set_variable = { name = minghm_stage_last_notified value = 0 } set_variable = { name = minghm_stage_notification_pending value = 1 } }
+			}
+			else_if = {
+				limit = { var:minghm_historical_stage = 1 }
+				if = { limit = { NOT = { exists = var:minghm_stage_last_notified } } set_variable = { name = minghm_stage_last_notified value = 1 } }
+				else_if = { limit = { NOT = { var:minghm_stage_last_notified = 1 } } set_variable = { name = minghm_stage_last_notified value = 1 } set_variable = { name = minghm_stage_notification_pending value = 1 } }
+			}
+			else_if = {
+				limit = { var:minghm_historical_stage = 2 }
+				if = { limit = { NOT = { exists = var:minghm_stage_last_notified } } set_variable = { name = minghm_stage_last_notified value = 2 } }
+				else_if = { limit = { NOT = { var:minghm_stage_last_notified = 2 } } set_variable = { name = minghm_stage_last_notified value = 2 } set_variable = { name = minghm_stage_notification_pending value = 1 } }
+			}
+			else_if = {
+				limit = { var:minghm_historical_stage = 3 }
+				if = { limit = { NOT = { exists = var:minghm_stage_last_notified } } set_variable = { name = minghm_stage_last_notified value = 3 } }
+				else_if = { limit = { NOT = { var:minghm_stage_last_notified = 3 } } set_variable = { name = minghm_stage_last_notified value = 3 } set_variable = { name = minghm_stage_notification_pending value = 1 } }
+			}
+			else = {
+				if = { limit = { NOT = { exists = var:minghm_stage_last_notified } } set_variable = { name = minghm_stage_last_notified value = 4 } }
+				else_if = { limit = { NOT = { var:minghm_stage_last_notified = 4 } } set_variable = { name = minghm_stage_last_notified value = 4 } set_variable = { name = minghm_stage_notification_pending value = 1 } }
+			}
+
 			if = {
 				limit = {
 					exists = var:minghm_foreground_content_active
@@ -157,6 +184,10 @@ minghm_yearly_maintenance_effect = {
 			remove_variable = minghm_stage_change_score
 			remove_variable = minghm_stage_breakdown_score
 			remove_variable = minghm_stage_work
+		}
+		if = {
+			limit = { title:h_greatming = { exists = var:minghm_stage_notification_pending } }
+			trigger_event = { id = minghm_core.0005 }
 		}
 	}
 }
