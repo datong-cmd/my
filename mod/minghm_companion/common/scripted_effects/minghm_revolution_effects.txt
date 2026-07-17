@@ -1,0 +1,94 @@
+# M8：革命力量与朝廷响应均是全国抽象数值。它们只存在于当前危机，八季度后清除。
+minghm_prepare_revolutionary_crisis_effect = {
+	title:h_greatming = {
+		set_variable = { name = minghm_foreground_content_active value = 1 }
+		set_variable = { name = minghm_active_content_type value = 5 }
+		set_variable = { name = minghm_revolution_stage value = 1 }
+		set_variable = { name = minghm_revolution_commitment value = 0 }
+		set_variable = { name = minghm_revolution_route value = 0 }
+
+		set_variable = { name = minghm_revolution_force value = var:minghm_popular_mobilization }
+		set_variable = { name = minghm_revolution_work value = var:minghm_reform_momentum }
+		change_variable = { name = minghm_revolution_work multiply = 0.5 }
+		change_variable = { name = minghm_revolution_force add = var:minghm_revolution_work }
+
+		set_variable = { name = minghm_revolution_response value = var:minghm_state_capacity }
+		set_variable = { name = minghm_revolution_work value = var:minghm_elite_cohesion }
+		change_variable = { name = minghm_revolution_work multiply = 0.5 }
+		change_variable = { name = minghm_revolution_response add = var:minghm_revolution_work }
+		set_variable = { name = minghm_revolution_work value = var:minghm_military_autonomy }
+		change_variable = { name = minghm_revolution_work multiply = 0.3 }
+		change_variable = { name = minghm_revolution_response add = var:minghm_revolution_work }
+		set_variable = { name = minghm_revolution_escalation value = var:minghm_crisis_pressure }
+		remove_variable = minghm_revolution_work
+	}
+}
+
+minghm_begin_revolutionary_crisis_effect = {
+	title:h_greatming = {
+		set_variable = { name = minghm_revolution_stage value = 4 }
+		set_variable = { name = minghm_revolution_progress value = 0 }
+	}
+}
+
+minghm_revolutionary_crisis_quarterly_effect = {
+	title:h_greatming = {
+		change_variable = { name = minghm_revolution_progress add = 1 }
+		if = {
+			limit = { var:minghm_revolution_progress >= 8 }
+			trigger_event = { id = minghm_revolution.5020 }
+		}
+	}
+}
+
+minghm_resolve_revolutionary_crisis_effect = {
+	title:h_greatming = {
+		# 正值偏向朝廷重建，负值偏向旧秩序断裂；承诺有助于组织一方，但不足以抹平力量差距。
+		set_variable = { name = minghm_revolution_result value = var:minghm_revolution_response }
+		set_variable = { name = minghm_revolution_work value = var:minghm_revolution_commitment }
+		change_variable = { name = minghm_revolution_work multiply = 0.25 }
+		change_variable = { name = minghm_revolution_result add = var:minghm_revolution_work }
+		change_variable = { name = minghm_revolution_result subtract = var:minghm_revolution_force }
+		set_variable = { name = minghm_revolution_work value = var:minghm_revolution_escalation }
+		change_variable = { name = minghm_revolution_work multiply = 0.25 }
+		change_variable = { name = minghm_revolution_result subtract = var:minghm_revolution_work }
+		set_variable = { name = minghm_revolution_random value = { 0 10 } }
+		change_variable = { name = minghm_revolution_result add = var:minghm_revolution_random }
+		remove_variable = minghm_revolution_work
+	}
+}
+
+minghm_finish_revolutionary_crisis_effect = {
+	title:h_greatming = {
+		if = {
+			limit = { var:minghm_revolution_result >= 40 }
+			minghm_change_power_effect = { VARIABLE = minghm_state_capacity DELTA = 4 REASON = 1501 }
+			minghm_change_power_effect = { VARIABLE = minghm_elite_cohesion DELTA = 3 REASON = 1501 }
+			minghm_change_power_effect = { VARIABLE = minghm_popular_mobilization DELTA = -5 REASON = 1501 }
+			minghm_change_power_effect = { VARIABLE = minghm_conservative_power DELTA = 4 REASON = 1501 }
+			minghm_change_power_effect = { VARIABLE = minghm_crisis_pressure DELTA = -5 REASON = 1501 }
+		}
+		else_if = {
+			limit = { var:minghm_revolution_result >= 10 }
+			set_variable = { name = minghm_new_order_commitment value = 1 }
+			minghm_change_power_effect = { VARIABLE = minghm_state_capacity DELTA = 2 REASON = 1502 }
+			minghm_change_power_effect = { VARIABLE = minghm_reform_momentum DELTA = 4 REASON = 1502 }
+			minghm_change_power_effect = { VARIABLE = minghm_popular_mobilization DELTA = 3 REASON = 1502 }
+			minghm_change_power_effect = { VARIABLE = minghm_conservative_power DELTA = -3 REASON = 1502 }
+		}
+		else_if = {
+			limit = { var:minghm_revolution_result >= -15 }
+			minghm_change_power_effect = { VARIABLE = minghm_elite_cohesion DELTA = -4 REASON = 1503 }
+			minghm_change_power_effect = { VARIABLE = minghm_crisis_pressure DELTA = 5 REASON = 1503 }
+			minghm_change_power_effect = { VARIABLE = minghm_military_autonomy DELTA = 3 REASON = 1503 }
+		}
+		else = {
+			set_variable = { name = minghm_new_order_commitment value = 1 }
+			minghm_change_power_effect = { VARIABLE = minghm_state_capacity DELTA = -3 REASON = 1504 }
+			minghm_change_power_effect = { VARIABLE = minghm_reform_momentum DELTA = 5 REASON = 1504 }
+			minghm_change_power_effect = { VARIABLE = minghm_popular_mobilization DELTA = 5 REASON = 1504 }
+			minghm_change_power_effect = { VARIABLE = minghm_conservative_power DELTA = -6 REASON = 1504 }
+			minghm_change_power_effect = { VARIABLE = minghm_crisis_pressure DELTA = 5 REASON = 1504 }
+		}
+	}
+}

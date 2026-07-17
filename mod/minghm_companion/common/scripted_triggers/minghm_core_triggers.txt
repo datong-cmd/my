@@ -48,6 +48,19 @@ minghm_can_continue_technical_organization_trigger = {
 	}
 }
 
+# 事件版革命只在双重权力的力量组合已经形成时可见；不创建 faction、战争或匿名人物。
+minghm_can_open_revolutionary_crisis_trigger = {
+	is_GM_emperor = yes
+	title:h_greatming = {
+		var:minghm_historical_stage = 3
+		var:minghm_popular_mobilization >= 60
+		var:minghm_elite_cohesion <= 40
+		var:minghm_crisis_pressure >= 60
+		OR = { var:minghm_reform_momentum >= 60 var:minghm_military_autonomy >= 60 }
+		NOT = { exists = var:minghm_foreground_content_active }
+	}
+}
+
 # 仅检查明帝当前宫廷；缺员时案件路线降级，不生成替代角色。
 minghm_has_dali_institution_trigger = {
 	is_GM_emperor = yes

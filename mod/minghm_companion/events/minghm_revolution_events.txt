@@ -1,0 +1,102 @@
+namespace = minghm_revolution
+
+character_event = {
+	id = minghm_revolution.5000
+	title = minghm_revolution.5000.t
+	desc = minghm_revolution.5000.desc
+	theme = realm
+	trigger = { minghm_can_open_revolutionary_crisis_trigger = yes }
+	immediate = { minghm_prepare_revolutionary_crisis_effect = yes }
+
+	option = {
+		name = minghm_revolution.5000.a
+		desc = minghm_revolution.5000.a.tt
+		title:h_greatming = {
+			set_variable = { name = minghm_revolution_route value = 1 }
+			set_variable = { name = minghm_revolution_commitment value = 35 }
+			change_variable = { name = minghm_revolution_force subtract = 10 }
+			change_variable = { name = minghm_revolution_response add = 5 }
+			change_variable = { name = minghm_revolution_escalation subtract = 10 }
+			set_variable = { name = minghm_revolution_stage value = 2 }
+		}
+		trigger_event = { id = minghm_revolution.5010 days = 1 }
+	}
+	option = {
+		name = minghm_revolution.5000.b
+		desc = minghm_revolution.5000.b.tt
+		title:h_greatming = {
+			set_variable = { name = minghm_revolution_route value = 2 }
+			set_variable = { name = minghm_revolution_commitment value = 65 }
+			change_variable = { name = minghm_revolution_force add = 15 }
+			change_variable = { name = minghm_revolution_escalation add = 5 }
+			minghm_change_power_effect = { VARIABLE = minghm_popular_mobilization DELTA = 3 REASON = 1510 }
+			set_variable = { name = minghm_revolution_stage value = 2 }
+		}
+		trigger_event = { id = minghm_revolution.5010 days = 1 }
+	}
+	option = {
+		name = minghm_revolution.5000.c
+		desc = minghm_revolution.5000.c.tt
+		trigger = { exists = var:huang_quan_value var:huang_quan_value >= 25 }
+		HQ_change = { CHANGE = -25 CHECK = 437639088 }
+		title:h_greatming = {
+			set_variable = { name = minghm_revolution_route value = 3 }
+			set_variable = { name = minghm_revolution_commitment value = 60 }
+			change_variable = { name = minghm_revolution_response add = 15 }
+			change_variable = { name = minghm_revolution_escalation add = 10 }
+			minghm_change_power_effect = { VARIABLE = minghm_military_autonomy DELTA = 3 REASON = 1511 }
+			set_variable = { name = minghm_revolution_stage value = 2 }
+		}
+		trigger_event = { id = minghm_revolution.5010 days = 1 }
+	}
+	option = { name = minghm_revolution.5000.d title:h_greatming = { minghm_cleanup_active_content_effect = yes } }
+}
+
+character_event = {
+	id = minghm_revolution.5010
+	title = minghm_revolution.5010.t
+	desc = minghm_revolution.5010.desc
+	theme = realm
+	option = {
+		name = minghm_revolution.5010.a
+		desc = minghm_revolution.5010.a.tt
+		title:h_greatming = {
+			change_variable = { name = minghm_revolution_force add = 10 }
+			minghm_change_power_effect = { VARIABLE = minghm_popular_mobilization DELTA = 2 REASON = 1512 }
+		}
+		minghm_begin_revolutionary_crisis_effect = yes
+	}
+	option = {
+		name = minghm_revolution.5010.b
+		desc = minghm_revolution.5010.b.tt
+		title:h_greatming = {
+			change_variable = { name = minghm_revolution_force subtract = 5 }
+			change_variable = { name = minghm_revolution_response add = 10 }
+			minghm_change_power_effect = { VARIABLE = minghm_elite_cohesion DELTA = 3 REASON = 1513 }
+		}
+		minghm_begin_revolutionary_crisis_effect = yes
+	}
+	option = {
+		name = minghm_revolution.5010.c
+		desc = minghm_revolution.5010.c.tt
+		trigger = { title:h_greatming = { var:minghm_revolution_route = 3 } }
+		title:h_greatming = {
+			change_variable = { name = minghm_revolution_response add = 10 }
+			change_variable = { name = minghm_revolution_escalation add = 15 }
+			minghm_change_power_effect = { VARIABLE = minghm_military_autonomy DELTA = 3 REASON = 1514 }
+		}
+		minghm_begin_revolutionary_crisis_effect = yes
+	}
+}
+
+character_event = {
+	id = minghm_revolution.5020
+	title = minghm_revolution.5020.t
+	desc = minghm_revolution.5020.desc
+	theme = realm
+	immediate = { minghm_resolve_revolutionary_crisis_effect = yes }
+	option = { name = minghm_revolution.5020.a trigger = { title:h_greatming = { var:minghm_revolution_result >= 40 } } title:h_greatming = { minghm_finish_revolutionary_crisis_effect = yes minghm_cleanup_active_content_effect = yes } }
+	option = { name = minghm_revolution.5020.b trigger = { title:h_greatming = { var:minghm_revolution_result >= 10 var:minghm_revolution_result < 40 } } title:h_greatming = { minghm_finish_revolutionary_crisis_effect = yes minghm_cleanup_active_content_effect = yes } }
+	option = { name = minghm_revolution.5020.c trigger = { title:h_greatming = { var:minghm_revolution_result >= -15 var:minghm_revolution_result < 10 } } title:h_greatming = { minghm_finish_revolutionary_crisis_effect = yes minghm_cleanup_active_content_effect = yes } }
+	option = { name = minghm_revolution.5020.d trigger = { title:h_greatming = { var:minghm_revolution_result < -15 } } title:h_greatming = { minghm_finish_revolutionary_crisis_effect = yes minghm_cleanup_active_content_effect = yes } }
+}

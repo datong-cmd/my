@@ -11,10 +11,13 @@ $required = @(
     'common\\script_values\\minghm_outlook_values.txt',
     'common\\scripted_effects\\minghm_core_effects.txt',
 	'common\\scripted_effects\\minghm_case_effects.txt',
+	'common\\scripted_effects\\minghm_revolution_effects.txt',
     'common\\scripted_effects\\minghm_outlook_effects.txt',
 	'common\\decisions\\minghm_case_decisions.txt',
+	'common\\decisions\\minghm_revolution_decisions.txt',
     'events\\minghm_core_events.txt',
 	'events\\minghm_case_events.txt',
+	'events\\minghm_revolution_events.txt',
     'events\\minghm_outlook_events.txt'
 )
 

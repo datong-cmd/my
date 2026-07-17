@@ -1,0 +1,9 @@
+# M8：事件版革命/反革命。它是国家层政治博弈，而非战争、地图或人物生成器。
+minghm_address_dual_power_decision = {
+	picture = { reference = "gfx/interface/illustrations/decisions/decision_destiny_goal.dds" }
+	desc = minghm_address_dual_power_decision_desc
+	is_shown = { minghm_is_ming_emperor_trigger = yes }
+	is_valid_showing_failures_only = { minghm_can_open_revolutionary_crisis_trigger = yes }
+	effect = { trigger_event = { id = minghm_revolution.5000 } }
+	ai_will_do = { base = 0 }
+}

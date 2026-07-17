@@ -13,7 +13,7 @@ yearly_global_pulse = {
 }
 
 quarterly_playable_pulse = {
-	on_actions = { minghm_policy_quarterly_pulse minghm_technical_quarterly_pulse }
+	on_actions = { minghm_policy_quarterly_pulse minghm_technical_quarterly_pulse minghm_revolution_quarterly_pulse }
 }
 
 minghm_game_start_after_lobby = {
@@ -68,4 +68,17 @@ minghm_technical_quarterly_pulse = {
 		}
 	}
 	effect = { minghm_technical_organization_quarterly_effect = yes }
+}
+
+# 革命危机激活时每季度推进一次，八个季度后结算；不扫描角色、头衔或地图。
+minghm_revolution_quarterly_pulse = {
+	trigger = {
+		is_GM_emperor = yes
+		title:h_greatming = {
+			exists = var:minghm_foreground_content_active
+			var:minghm_active_content_type = 5
+			var:minghm_revolution_stage = 4
+		}
+	}
+	effect = { minghm_revolutionary_crisis_quarterly_effect = yes }
 }
