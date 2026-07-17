@@ -13,7 +13,7 @@ yearly_global_pulse = {
 }
 
 quarterly_playable_pulse = {
-	on_actions = { minghm_policy_quarterly_pulse }
+	on_actions = { minghm_policy_quarterly_pulse minghm_technical_quarterly_pulse }
 }
 
 minghm_game_start_after_lobby = {
@@ -55,4 +55,17 @@ minghm_policy_quarterly_pulse = {
 		}
 	}
 	effect = { minghm_bureaucratic_policy_quarterly_effect = yes }
+}
+
+# 仅玩家正在推进的技术组织项目使用季度脉冲；无项目时没有额外循环。
+minghm_technical_quarterly_pulse = {
+	trigger = {
+		is_GM_emperor = yes
+		title:h_greatming = {
+			exists = var:minghm_foreground_content_active
+			var:minghm_active_content_type = 4
+			var:minghm_technical_stage = 4
+		}
+	}
+	effect = { minghm_technical_organization_quarterly_effect = yes }
 }

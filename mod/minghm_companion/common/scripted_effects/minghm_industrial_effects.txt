@@ -9,3 +9,89 @@ minghm_unlock_technical_network_effect = {
 	}
 }
 
+# 后续技术项目沿用唯一前台槽。支持/阻力是组织权力的抽象，不对应工厂、贸易或地区产能。
+minghm_prepare_technical_organization_effect = {
+	title:h_greatming = {
+		set_variable = { name = minghm_foreground_content_active value = 1 }
+		set_variable = { name = minghm_active_content_type value = 4 }
+		set_variable = { name = minghm_technical_stage value = 1 }
+		set_variable = { name = minghm_technical_commitment value = 0 }
+		set_variable = { name = minghm_technical_route value = 0 }
+
+		set_variable = { name = minghm_technical_support value = var:minghm_reform_momentum }
+		set_variable = { name = minghm_technical_work value = var:minghm_state_capacity }
+		change_variable = { name = minghm_technical_work multiply = 0.5 }
+		change_variable = { name = minghm_technical_support add = var:minghm_technical_work }
+		set_variable = { name = minghm_technical_work value = var:minghm_industrial_stage }
+		change_variable = { name = minghm_technical_work multiply = 10 }
+		change_variable = { name = minghm_technical_support add = var:minghm_technical_work }
+
+		set_variable = { name = minghm_technical_resistance value = var:minghm_conservative_power }
+		set_variable = { name = minghm_technical_work value = var:minghm_military_autonomy }
+		change_variable = { name = minghm_technical_work multiply = 0.33 }
+		change_variable = { name = minghm_technical_resistance add = var:minghm_technical_work }
+		remove_variable = minghm_technical_work
+	}
+}
+
+minghm_begin_technical_organization_effect = {
+	title:h_greatming = {
+		set_variable = { name = minghm_technical_stage value = 4 }
+		set_variable = { name = minghm_technical_progress value = 0 }
+	}
+}
+
+minghm_technical_organization_quarterly_effect = {
+	title:h_greatming = {
+		change_variable = { name = minghm_technical_progress add = 1 }
+		if = {
+			limit = { var:minghm_technical_progress >= 8 }
+			trigger_event = { id = minghm_industrial.3030 }
+		}
+	}
+}
+
+minghm_resolve_technical_organization_effect = {
+	title:h_greatming = {
+		set_variable = { name = minghm_technical_result value = var:minghm_technical_support }
+		set_variable = { name = minghm_technical_work value = var:minghm_technical_commitment }
+		change_variable = { name = minghm_technical_work multiply = 0.5 }
+		change_variable = { name = minghm_technical_result add = var:minghm_technical_work }
+		change_variable = { name = minghm_technical_result subtract = var:minghm_technical_resistance }
+		set_variable = { name = minghm_technical_random value = { 0 10 } }
+		change_variable = { name = minghm_technical_result add = var:minghm_technical_random }
+		remove_variable = minghm_technical_work
+	}
+}
+
+minghm_finish_technical_organization_effect = {
+	title:h_greatming = {
+		if = {
+			limit = { var:minghm_technical_result >= 80 }
+			change_variable = { name = minghm_industrial_stage add = 1 }
+			minghm_change_power_effect = { VARIABLE = minghm_state_capacity DELTA = 3 REASON = 1311 }
+			minghm_change_power_effect = { VARIABLE = minghm_reform_momentum DELTA = 3 REASON = 1311 }
+			if = {
+				limit = { var:minghm_industrial_stage >= 4 }
+				set_variable = { name = minghm_new_order_commitment value = 1 }
+			}
+		}
+		else_if = {
+			limit = { var:minghm_technical_result >= 50 }
+			change_variable = { name = minghm_industrial_stage add = 1 }
+			minghm_change_power_effect = { VARIABLE = minghm_state_capacity DELTA = 1 REASON = 1312 }
+			minghm_change_power_effect = { VARIABLE = minghm_reform_momentum DELTA = 1 REASON = 1312 }
+			minghm_change_power_effect = { VARIABLE = minghm_conservative_power DELTA = 2 REASON = 1312 }
+		}
+		else_if = {
+			limit = { var:minghm_technical_result >= 10 }
+			minghm_change_power_effect = { VARIABLE = minghm_military_autonomy DELTA = 3 REASON = 1313 }
+			minghm_change_power_effect = { VARIABLE = minghm_elite_cohesion DELTA = -2 REASON = 1313 }
+		}
+		else = {
+			minghm_change_power_effect = { VARIABLE = minghm_reform_momentum DELTA = -4 REASON = 1314 }
+			minghm_change_power_effect = { VARIABLE = minghm_crisis_pressure DELTA = 5 REASON = 1314 }
+		}
+		minghm_clamp_core_values_effect = yes
+	}
+}

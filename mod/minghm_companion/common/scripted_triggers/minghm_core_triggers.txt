@@ -36,6 +36,18 @@ minghm_can_start_technical_network_trigger = {
 	}
 }
 
+# 技术组织的后续项目从阶段 1 开始，每次只可能提升一档，不模拟生产。
+minghm_can_continue_technical_organization_trigger = {
+	is_GM_emperor = yes
+	title:h_greatming = {
+		var:minghm_industrial_stage >= 1
+		var:minghm_industrial_stage < 4
+		var:minghm_state_capacity >= 40
+		var:minghm_reform_momentum >= 35
+		NOT = { exists = var:minghm_foreground_content_active }
+	}
+}
+
 # 仅检查明帝当前宫廷；缺员时案件路线降级，不生成替代角色。
 minghm_has_dali_institution_trigger = {
 	is_GM_emperor = yes

@@ -11,3 +11,106 @@ character_event = {
 	option = { name = minghm_industrial.3000.c }
 }
 
+character_event = {
+	id = minghm_industrial.3010
+	title = minghm_industrial.3010.t
+	desc = minghm_industrial.3010.desc
+	theme = realm
+	trigger = { minghm_can_continue_technical_organization_trigger = yes }
+	immediate = { minghm_prepare_technical_organization_effect = yes }
+
+	option = {
+		name = minghm_industrial.3010.a
+		desc = minghm_industrial.3010.a.tt
+		trigger = { exists = var:huang_quan_value var:huang_quan_value >= 25 }
+		HQ_change = { CHANGE = -25 CHECK = 437639088 }
+		title:h_greatming = {
+			set_variable = { name = minghm_legitimation_mode value = 1 }
+			set_variable = { name = minghm_technical_commitment value = 60 }
+			change_variable = { name = minghm_technical_support add = 10 }
+			change_variable = { name = minghm_technical_resistance add = 10 }
+			set_variable = { name = minghm_technical_stage value = 2 }
+		}
+		trigger_event = { id = minghm_industrial.3020 days = 1 }
+	}
+	option = {
+		name = minghm_industrial.3010.b
+		desc = minghm_industrial.3010.b.tt
+		title:h_greatming = {
+			set_variable = { name = minghm_legitimation_mode value = 2 }
+			set_variable = { name = minghm_technical_commitment value = 45 }
+			change_variable = { name = minghm_technical_support add = 5 }
+			change_variable = { name = minghm_technical_resistance subtract = 5 }
+			set_variable = { name = minghm_technical_stage value = 2 }
+		}
+		trigger_event = { id = minghm_industrial.3020 days = 1 }
+	}
+	option = {
+		name = minghm_industrial.3010.c
+		desc = minghm_industrial.3010.c.tt
+		trigger = { title:h_greatming = { var:minghm_popular_mobilization >= 35 } }
+		title:h_greatming = {
+			set_variable = { name = minghm_legitimation_mode value = 3 }
+			set_variable = { name = minghm_technical_commitment value = 55 }
+			change_variable = { name = minghm_technical_support add = 5 }
+			change_variable = { name = minghm_technical_resistance add = 5 }
+			minghm_change_power_effect = { VARIABLE = minghm_popular_mobilization DELTA = 2 REASON = 1310 }
+			set_variable = { name = minghm_technical_stage value = 2 }
+		}
+		trigger_event = { id = minghm_industrial.3020 days = 1 }
+	}
+	option = { name = minghm_industrial.3010.d title:h_greatming = { minghm_cleanup_active_content_effect = yes } }
+}
+
+character_event = {
+	id = minghm_industrial.3020
+	title = minghm_industrial.3020.t
+	desc = minghm_industrial.3020.desc
+	theme = realm
+
+	option = {
+		name = minghm_industrial.3020.a
+		desc = minghm_industrial.3020.a.tt
+		title:h_greatming = {
+			set_variable = { name = minghm_technical_route value = 1 }
+			change_variable = { name = minghm_technical_support add = 10 }
+			change_variable = { name = minghm_technical_resistance add = 5 }
+		}
+		minghm_begin_technical_organization_effect = yes
+	}
+	option = {
+		name = minghm_industrial.3020.b
+		desc = minghm_industrial.3020.b.tt
+		title:h_greatming = {
+			set_variable = { name = minghm_technical_route value = 2 }
+			change_variable = { name = minghm_technical_support add = 5 }
+			change_variable = { name = minghm_technical_resistance add = 10 }
+			minghm_change_power_effect = { VARIABLE = minghm_military_autonomy DELTA = 3 REASON = 1315 }
+		}
+		minghm_begin_technical_organization_effect = yes
+	}
+	option = {
+		name = minghm_industrial.3020.c
+		desc = minghm_industrial.3020.c.tt
+		title:h_greatming = {
+			set_variable = { name = minghm_technical_route value = 3 }
+			change_variable = { name = minghm_technical_support add = 5 }
+			change_variable = { name = minghm_technical_resistance add = 5 }
+			minghm_change_power_effect = { VARIABLE = minghm_commercial_influence DELTA = 3 REASON = 1316 }
+		}
+		minghm_begin_technical_organization_effect = yes
+	}
+	option = { name = minghm_industrial.3020.d title:h_greatming = { minghm_cleanup_active_content_effect = yes } }
+}
+
+character_event = {
+	id = minghm_industrial.3030
+	title = minghm_industrial.3030.t
+	desc = minghm_industrial.3030.desc
+	theme = realm
+	immediate = { minghm_resolve_technical_organization_effect = yes }
+	option = { name = minghm_industrial.3030.a trigger = { title:h_greatming = { var:minghm_technical_result >= 80 } } title:h_greatming = { minghm_finish_technical_organization_effect = yes minghm_cleanup_active_content_effect = yes } }
+	option = { name = minghm_industrial.3030.b trigger = { title:h_greatming = { var:minghm_technical_result >= 50 var:minghm_technical_result < 80 } } title:h_greatming = { minghm_finish_technical_organization_effect = yes minghm_cleanup_active_content_effect = yes } }
+	option = { name = minghm_industrial.3030.c trigger = { title:h_greatming = { var:minghm_technical_result >= 10 var:minghm_technical_result < 50 } } title:h_greatming = { minghm_finish_technical_organization_effect = yes minghm_cleanup_active_content_effect = yes } }
+	option = { name = minghm_industrial.3030.d trigger = { title:h_greatming = { var:minghm_technical_result < 10 } } title:h_greatming = { minghm_finish_technical_organization_effect = yes minghm_cleanup_active_content_effect = yes } }
+}
