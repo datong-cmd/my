@@ -50,7 +50,7 @@ minghm_policy_quarterly_pulse = {
 		title:h_greatming = {
 			exists = var:minghm_foreground_content_active
 			var:minghm_active_content_type = 1
-			OR = { var:minghm_policy_id = 1 var:minghm_policy_id = 2 }
+			OR = { var:minghm_policy_id = 1 var:minghm_policy_id = 2 var:minghm_policy_id = 3 }
 			var:minghm_policy_stage = 4
 			NOT = { exists = var:minghm_inheritance_recovery_pending }
 		}
@@ -60,7 +60,11 @@ minghm_policy_quarterly_pulse = {
 			limit = { title:h_greatming = { var:minghm_policy_id = 1 } }
 			minghm_bureaucratic_policy_quarterly_effect = yes
 		}
-		else = { minghm_mobilization_policy_quarterly_effect = yes }
+		else_if = {
+			limit = { title:h_greatming = { var:minghm_policy_id = 2 } }
+			minghm_mobilization_policy_quarterly_effect = yes
+		}
+		else = { minghm_commercial_policy_quarterly_effect = yes }
 	}
 }
 
