@@ -94,3 +94,86 @@ minghm_finish_bureaucratic_reform_effect = {
 	}
 }
 
+# M6：民生—动员制度化。它只组织既有全国力量，不生成“群众”“行业”或地区实体。
+minghm_prepare_public_consultation_effect = {
+	title:h_greatming = {
+		set_variable = { name = minghm_foreground_content_active value = 1 }
+		set_variable = { name = minghm_active_content_type value = 1 }
+		set_variable = { name = minghm_policy_id value = 2 }
+		set_variable = { name = minghm_policy_stage value = 0 }
+		set_variable = { name = minghm_policy_radicality value = 50 }
+		set_variable = { name = minghm_policy_support value = var:minghm_popular_mobilization }
+		set_variable = { name = minghm_policy_work value = var:minghm_reform_momentum }
+		change_variable = { name = minghm_policy_work multiply = 0.5 }
+		change_variable = { name = minghm_policy_support add = var:minghm_policy_work }
+
+		set_variable = { name = minghm_policy_capacity value = var:minghm_state_capacity }
+		set_variable = { name = minghm_policy_work value = var:minghm_elite_cohesion }
+		change_variable = { name = minghm_policy_work multiply = 0.2 }
+		change_variable = { name = minghm_policy_capacity add = var:minghm_policy_work }
+
+		set_variable = { name = minghm_policy_resistance value = var:minghm_conservative_power }
+		set_variable = { name = minghm_policy_work value = var:minghm_crisis_pressure }
+		change_variable = { name = minghm_policy_work multiply = 0.25 }
+		change_variable = { name = minghm_policy_resistance add = var:minghm_policy_work }
+		remove_variable = minghm_policy_work
+	}
+}
+
+minghm_begin_public_consultation_effect = {
+	title:h_greatming = {
+		set_variable = { name = minghm_policy_stage value = 4 }
+		set_variable = { name = minghm_policy_progress value = 0 }
+	}
+}
+
+minghm_mobilization_policy_quarterly_effect = {
+	title:h_greatming = {
+		change_variable = { name = minghm_policy_progress add = 1 }
+		if = {
+			limit = { var:minghm_policy_progress >= 8 }
+			trigger_event = { id = minghm_policy.1102 }
+		}
+	}
+}
+
+minghm_resolve_public_consultation_effect = {
+	title:h_greatming = {
+		set_variable = { name = minghm_policy_support_half value = var:minghm_policy_support }
+		change_variable = { name = minghm_policy_support_half multiply = 0.5 }
+		set_variable = { name = minghm_policy_result value = var:minghm_policy_capacity }
+		change_variable = { name = minghm_policy_result add = var:minghm_policy_support_half }
+		change_variable = { name = minghm_policy_result subtract = var:minghm_policy_resistance }
+		set_variable = { name = minghm_policy_random value = { 0 10 } }
+		change_variable = { name = minghm_policy_result add = var:minghm_policy_random }
+	}
+}
+
+minghm_finish_public_consultation_effect = {
+	title:h_greatming = {
+		if = {
+			limit = { var:minghm_policy_result >= 70 }
+			minghm_change_power_effect = { VARIABLE = minghm_popular_mobilization DELTA = 5 REASON = 1121 }
+			minghm_change_power_effect = { VARIABLE = minghm_reform_momentum DELTA = 3 REASON = 1121 }
+			minghm_change_power_effect = { VARIABLE = minghm_commercial_influence DELTA = 2 REASON = 1121 }
+			minghm_change_power_effect = { VARIABLE = minghm_elite_cohesion DELTA = -1 REASON = 1121 }
+		}
+		else_if = {
+			limit = { var:minghm_policy_result >= 40 }
+			minghm_change_power_effect = { VARIABLE = minghm_popular_mobilization DELTA = 2 REASON = 1122 }
+			minghm_change_power_effect = { VARIABLE = minghm_reform_momentum DELTA = 1 REASON = 1122 }
+		}
+		else_if = {
+			limit = { var:minghm_policy_result >= 10 }
+			minghm_change_power_effect = { VARIABLE = minghm_reform_momentum DELTA = -1 REASON = 1123 }
+			minghm_change_power_effect = { VARIABLE = minghm_conservative_power DELTA = 2 REASON = 1123 }
+			minghm_change_power_effect = { VARIABLE = minghm_crisis_pressure DELTA = 3 REASON = 1123 }
+		}
+		else = {
+			minghm_change_power_effect = { VARIABLE = minghm_popular_mobilization DELTA = -5 REASON = 1124 }
+			minghm_change_power_effect = { VARIABLE = minghm_elite_cohesion DELTA = -3 REASON = 1124 }
+			minghm_change_power_effect = { VARIABLE = minghm_conservative_power DELTA = 3 REASON = 1124 }
+			minghm_change_power_effect = { VARIABLE = minghm_crisis_pressure DELTA = 6 REASON = 1124 }
+		}
+	}
+}

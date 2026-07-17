@@ -178,6 +178,7 @@ minghm_cleanup_active_content_effect = {
 	remove_variable = minghm_policy_support_half
 	remove_variable = minghm_policy_result
 	remove_variable = minghm_policy_random
+	remove_variable = minghm_policy_work
 	remove_variable = minghm_case_id
 	remove_variable = minghm_case_stage
 	remove_variable = minghm_case_evidence

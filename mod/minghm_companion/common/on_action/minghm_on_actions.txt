@@ -50,12 +50,18 @@ minghm_policy_quarterly_pulse = {
 		title:h_greatming = {
 			exists = var:minghm_foreground_content_active
 			var:minghm_active_content_type = 1
-			var:minghm_policy_id = 1
+			OR = { var:minghm_policy_id = 1 var:minghm_policy_id = 2 }
 			var:minghm_policy_stage = 4
 			NOT = { exists = var:minghm_inheritance_recovery_pending }
 		}
 	}
-	effect = { minghm_bureaucratic_policy_quarterly_effect = yes }
+	effect = {
+		if = {
+			limit = { title:h_greatming = { var:minghm_policy_id = 1 } }
+			minghm_bureaucratic_policy_quarterly_effect = yes
+		}
+		else = { minghm_mobilization_policy_quarterly_effect = yes }
+	}
 }
 
 # 仅玩家正在推进的技术组织项目使用季度脉冲；无项目时没有额外循环。

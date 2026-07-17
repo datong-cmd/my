@@ -113,3 +113,74 @@ character_event = {
 	}
 }
 
+character_event = {
+	id = minghm_policy.1100
+	title = minghm_policy.1100.t
+	desc = minghm_policy.1100.desc
+	theme = realm
+	trigger = { minghm_can_open_foreground_content_trigger = yes }
+	immediate = { minghm_prepare_public_consultation_effect = yes }
+	option = {
+		name = minghm_policy.1100.a
+		desc = minghm_policy.1100.a.tt
+		title:h_greatming = {
+			set_variable = { name = minghm_policy_stage value = 1 }
+			change_variable = { name = minghm_policy_support add = 10 }
+			change_variable = { name = minghm_policy_resistance add = 5 }
+		}
+		trigger_event = { id = minghm_policy.1101 days = 1 }
+	}
+	option = {
+		name = minghm_policy.1100.b
+		desc = minghm_policy.1100.b.tt
+		title:h_greatming = {
+			set_variable = { name = minghm_policy_stage value = 1 }
+			change_variable = { name = minghm_policy_support add = 5 }
+			change_variable = { name = minghm_policy_capacity add = 5 }
+			change_variable = { name = minghm_policy_radicality subtract = 10 }
+			minghm_change_power_effect = { VARIABLE = minghm_commercial_influence DELTA = 2 REASON = 1120 }
+		}
+		trigger_event = { id = minghm_policy.1101 days = 1 }
+	}
+	option = { name = minghm_policy.1100.c title:h_greatming = { minghm_cleanup_active_content_effect = yes } }
+}
+
+character_event = {
+	id = minghm_policy.1101
+	title = minghm_policy.1101.t
+	desc = minghm_policy.1101.desc
+	theme = realm
+	option = {
+		name = minghm_policy.1101.a
+		desc = minghm_policy.1101.a.tt
+		title:h_greatming = {
+			change_variable = { name = minghm_policy_support add = 10 }
+			change_variable = { name = minghm_policy_radicality subtract = 15 }
+		}
+		minghm_begin_public_consultation_effect = yes
+	}
+	option = {
+		name = minghm_policy.1101.b
+		desc = minghm_policy.1101.b.tt
+		trigger = { title:h_greatming = { var:minghm_popular_mobilization >= 35 } }
+		title:h_greatming = {
+			change_variable = { name = minghm_policy_support add = 20 }
+			change_variable = { name = minghm_policy_resistance add = 10 }
+			minghm_change_power_effect = { VARIABLE = minghm_popular_mobilization DELTA = 3 REASON = 1125 }
+		}
+		minghm_begin_public_consultation_effect = yes
+	}
+	option = { name = minghm_policy.1101.c title:h_greatming = { minghm_cleanup_active_content_effect = yes } }
+}
+
+character_event = {
+	id = minghm_policy.1102
+	title = minghm_policy.1102.t
+	desc = minghm_policy.1102.desc
+	theme = realm
+	immediate = { minghm_resolve_public_consultation_effect = yes }
+	option = { name = minghm_policy.1102.a trigger = { title:h_greatming = { var:minghm_policy_result >= 70 } } title:h_greatming = { minghm_finish_public_consultation_effect = yes minghm_cleanup_active_content_effect = yes } }
+	option = { name = minghm_policy.1102.b trigger = { title:h_greatming = { var:minghm_policy_result >= 40 var:minghm_policy_result < 70 } } title:h_greatming = { minghm_finish_public_consultation_effect = yes minghm_cleanup_active_content_effect = yes } }
+	option = { name = minghm_policy.1102.c trigger = { title:h_greatming = { var:minghm_policy_result >= 10 var:minghm_policy_result < 40 } } title:h_greatming = { minghm_finish_public_consultation_effect = yes minghm_cleanup_active_content_effect = yes } }
+	option = { name = minghm_policy.1102.d trigger = { title:h_greatming = { var:minghm_policy_result < 10 } } title:h_greatming = { minghm_finish_public_consultation_effect = yes minghm_cleanup_active_content_effect = yes } }
+}
