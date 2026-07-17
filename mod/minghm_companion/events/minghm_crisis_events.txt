@@ -1,0 +1,84 @@
+namespace = minghm_crisis
+
+character_event = {
+	id = minghm_crisis.2000
+	title = minghm_crisis.2000.t
+	desc = minghm_crisis.2000.desc
+	theme = realm
+	trigger = { minghm_can_open_foreground_content_trigger = yes }
+	immediate = { minghm_prepare_military_crisis_effect = yes }
+
+	option = {
+		name = minghm_crisis.2000.a
+		desc = minghm_crisis.2000.a.tt
+		title:h_greatming = {
+			change_variable = { name = minghm_response_force add = 15 }
+			change_variable = { name = minghm_crisis_force add = 5 }
+			change_variable = { name = minghm_crisis_commitment add = 20 }
+			set_variable = { name = minghm_crisis_stage value = 2 }
+		}
+		trigger_event = { id = minghm_crisis.2001 days = 1 }
+	}
+	option = {
+		name = minghm_crisis.2000.b
+		desc = minghm_crisis.2000.b.tt
+		trigger = { exists = var:huang_quan_value var:huang_quan_value >= 25 }
+		HQ_change = { CHANGE = -25 CHECK = 437639088 }
+		title:h_greatming = {
+			change_variable = { name = minghm_response_force add = 25 }
+			change_variable = { name = minghm_crisis_force add = 10 }
+			minghm_change_power_effect = { VARIABLE = minghm_elite_cohesion DELTA = -3 REASON = 1210 }
+			set_variable = { name = minghm_crisis_stage value = 2 }
+		}
+		trigger_event = { id = minghm_crisis.2001 days = 1 }
+	}
+	option = {
+		name = minghm_crisis.2000.c
+		desc = minghm_crisis.2000.c.tt
+		title:h_greatming = { minghm_cleanup_active_content_effect = yes }
+	}
+}
+
+character_event = {
+	id = minghm_crisis.2001
+	title = minghm_crisis.2001.t
+	desc = minghm_crisis.2001.desc
+	theme = realm
+
+	option = {
+		name = minghm_crisis.2001.a
+		desc = minghm_crisis.2001.a.tt
+		title:h_greatming = {
+			change_variable = { name = minghm_response_force add = 10 }
+			minghm_change_power_effect = { VARIABLE = minghm_state_capacity DELTA = -2 REASON = 1211 }
+			set_variable = { name = minghm_crisis_stage value = 3 }
+		}
+		minghm_resolve_military_crisis_effect = yes
+		trigger_event = { id = minghm_crisis.2002 days = 1 }
+	}
+	option = {
+		name = minghm_crisis.2001.b
+		desc = minghm_crisis.2001.b.tt
+		title:h_greatming = {
+			change_variable = { name = minghm_response_force add = 5 }
+			change_variable = { name = minghm_crisis_force subtract = 15 }
+			minghm_change_power_effect = { VARIABLE = minghm_military_autonomy DELTA = 7 REASON = 1212 }
+			set_variable = { name = minghm_crisis_stage value = 3 }
+		}
+		minghm_resolve_military_crisis_effect = yes
+		trigger_event = { id = minghm_crisis.2002 days = 1 }
+	}
+}
+
+character_event = {
+	id = minghm_crisis.2002
+	title = minghm_crisis.2002.t
+	desc = minghm_crisis.2002.desc
+	theme = realm
+	immediate = { }
+	option = { name = minghm_crisis.2002.a trigger = { title:h_greatming = { var:minghm_crisis_result >= 35 } } title:h_greatming = { minghm_finish_military_crisis_effect = yes minghm_cleanup_active_content_effect = yes } }
+	option = { name = minghm_crisis.2002.b trigger = { title:h_greatming = { var:minghm_crisis_result >= 10 var:minghm_crisis_result < 35 } } title:h_greatming = { minghm_finish_military_crisis_effect = yes minghm_cleanup_active_content_effect = yes } }
+	option = { name = minghm_crisis.2002.c trigger = { title:h_greatming = { var:minghm_crisis_result >= -10 var:minghm_crisis_result < 10 } } title:h_greatming = { minghm_finish_military_crisis_effect = yes minghm_cleanup_active_content_effect = yes } }
+	option = { name = minghm_crisis.2002.d trigger = { title:h_greatming = { var:minghm_crisis_result < -10 } } title:h_greatming = { minghm_finish_military_crisis_effect = yes minghm_cleanup_active_content_effect = yes } }
+}
+
