@@ -52,3 +52,25 @@ character_event = {
 		}
 	}
 }
+
+# 运行中的项目也可由玩家停止；只清本模组的单槽数据，不触及《变身大明》任何状态。
+character_event = {
+	id = minghm_core.0004
+	title = minghm_core.0004.t
+	desc = minghm_core.0004.desc
+	theme = realm
+	trigger = {
+		minghm_has_foreground_content_trigger = yes
+		NOT = { minghm_has_inheritance_recovery_pending_trigger = yes }
+	}
+	option = {
+		name = minghm_core.0004.a
+		desc = minghm_core.0004.a.tt
+		title:h_greatming = {
+			minghm_change_power_effect = { VARIABLE = minghm_state_capacity DELTA = -1 REASON = 1602 }
+			minghm_change_power_effect = { VARIABLE = minghm_crisis_pressure DELTA = 2 REASON = 1602 }
+			minghm_cleanup_active_content_effect = yes
+		}
+	}
+	option = { name = minghm_core.0004.b }
+}
