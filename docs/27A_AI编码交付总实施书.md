@@ -115,3 +115,24 @@ localization/simp_chinese/minghm_l_simp_chinese.yml
 - 性能和对象上限通过 100 年长跑；
 - 无已弃用经济系统、人物膨胀或资产复制；
 - T0–T7 全通过，T8 失败时革命战争桥安全关闭。
+
+## 9. 大型事件链增补交付规则
+
+大型事件链必须先读 `30/30A—30G`。权威状态放在 `h_greatming`，`story_cycle` 只作玩家进度展示；全国同时最多一条，AI 不创建可见 story。不得将旧 `16/16A` 中的财政、市场、区域生产或通用国家模板带入实现。
+
+```text
+common/story_cycles/minghm_major_chain_story.txt
+events/minghm_succession_chain_events.txt
+events/minghm_reform_chain_events.txt
+events/minghm_military_chain_events.txt
+events/minghm_technical_chain_events.txt
+events/minghm_case_chain_events.txt
+events/minghm_revolution_chain_events.txt
+```
+
+| 批次 | 产物 | 必须证明 |
+|---|---|---|
+| M6A | 统一容器与“新君临朝”垂直切片 | 单链锁、继承重建、角色死亡降级、间隔与清理通过 |
+| M6B | 其余五条大型事件链 | 严格按固定骨架，不扩展经济、地图参与者或上游职位写入 |
+
+每条链先完成 6—10 个固定事件，再考虑最多四个条件插曲；不得先批量生成几十个事件。
