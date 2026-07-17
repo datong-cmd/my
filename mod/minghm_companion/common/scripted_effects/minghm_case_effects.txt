@@ -1,0 +1,73 @@
+# M4：案件数据是一次性前台槽数据，结算后统一清理；不保存被告、办案人或地方实体。
+minghm_prepare_procedural_case_effect = {
+	title:h_greatming = {
+		set_variable = { name = minghm_foreground_content_active value = 1 }
+		set_variable = { name = minghm_active_content_type value = 2 }
+		set_variable = { name = minghm_case_id value = 1 }
+		set_variable = { name = minghm_case_stage value = 1 }
+		set_variable = { name = minghm_case_procedure value = 0 }
+		set_variable = { name = minghm_case_fear value = 0 }
+
+		# 证据是国家能力与精英协调的有限投影；压力来自守旧力量与既有危机。
+		set_variable = { name = minghm_case_evidence value = var:minghm_state_capacity }
+		change_variable = { name = minghm_case_evidence multiply = 0.4 }
+		set_variable = { name = minghm_case_work value = var:minghm_elite_cohesion }
+		change_variable = { name = minghm_case_work multiply = 0.2 }
+		change_variable = { name = minghm_case_evidence add = var:minghm_case_work }
+
+		set_variable = { name = minghm_case_pressure value = var:minghm_conservative_power }
+		change_variable = { name = minghm_case_pressure multiply = 0.5 }
+		set_variable = { name = minghm_case_work value = var:minghm_crisis_pressure }
+		change_variable = { name = minghm_case_work multiply = 0.5 }
+		change_variable = { name = minghm_case_pressure add = var:minghm_case_work }
+		remove_variable = minghm_case_work
+	}
+}
+
+minghm_resolve_procedural_case_effect = {
+	title:h_greatming = {
+		set_variable = { name = minghm_case_result value = var:minghm_case_evidence }
+		change_variable = { name = minghm_case_result add = var:minghm_case_procedure }
+		change_variable = { name = minghm_case_result subtract = var:minghm_case_pressure }
+		set_variable = { name = minghm_case_work value = var:minghm_case_fear }
+		change_variable = { name = minghm_case_work multiply = 0.25 }
+		change_variable = { name = minghm_case_result subtract = var:minghm_case_work }
+		set_variable = { name = minghm_case_random value = { 0 10 } }
+		change_variable = { name = minghm_case_result add = var:minghm_case_random }
+		remove_variable = minghm_case_work
+	}
+}
+
+minghm_finish_procedural_case_effect = {
+	title:h_greatming = {
+		if = {
+			limit = { var:minghm_case_result >= 50 }
+			minghm_change_power_effect = { VARIABLE = minghm_state_capacity DELTA = 3 REASON = 1401 }
+			minghm_change_power_effect = { VARIABLE = minghm_elite_cohesion DELTA = 2 REASON = 1401 }
+			minghm_change_power_effect = { VARIABLE = minghm_conservative_power DELTA = -4 REASON = 1401 }
+			minghm_change_power_effect = { VARIABLE = minghm_crisis_pressure DELTA = -2 REASON = 1401 }
+		}
+		else_if = {
+			limit = { var:minghm_case_result >= 20 }
+			minghm_change_power_effect = { VARIABLE = minghm_state_capacity DELTA = 1 REASON = 1402 }
+			minghm_change_power_effect = { VARIABLE = minghm_conservative_power DELTA = -1 REASON = 1402 }
+		}
+		else_if = {
+			limit = { var:minghm_case_result >= 0 }
+			minghm_change_power_effect = { VARIABLE = minghm_conservative_power DELTA = 2 REASON = 1403 }
+			minghm_change_power_effect = { VARIABLE = minghm_crisis_pressure DELTA = 2 REASON = 1403 }
+			minghm_change_power_effect = { VARIABLE = minghm_elite_cohesion DELTA = -1 REASON = 1403 }
+		}
+		else = {
+			minghm_change_power_effect = { VARIABLE = minghm_state_capacity DELTA = -3 REASON = 1404 }
+			minghm_change_power_effect = { VARIABLE = minghm_conservative_power DELTA = 3 REASON = 1404 }
+			minghm_change_power_effect = { VARIABLE = minghm_crisis_pressure DELTA = 5 REASON = 1404 }
+			minghm_change_power_effect = { VARIABLE = minghm_elite_cohesion DELTA = -3 REASON = 1404 }
+		}
+		# 强制侦缉不能无代价替代程序：恐惧过高会额外损伤协调。
+		if = {
+			limit = { var:minghm_case_fear >= 20 }
+			minghm_change_power_effect = { VARIABLE = minghm_elite_cohesion DELTA = -2 REASON = 1405 }
+		}
+	}
+}

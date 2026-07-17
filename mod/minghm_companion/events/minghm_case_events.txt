@@ -1,0 +1,80 @@
+namespace = minghm_case
+
+character_event = {
+	id = minghm_case.4000
+	title = minghm_case.4000.t
+	desc = minghm_case.4000.desc
+	theme = court
+	trigger = { minghm_can_open_foreground_content_trigger = yes }
+	immediate = { minghm_prepare_procedural_case_effect = yes }
+
+	option = {
+		name = minghm_case.4000.a
+		desc = minghm_case.4000.a.tt
+		trigger = { minghm_has_dali_institution_trigger = yes }
+		title:h_greatming = {
+			change_variable = { name = minghm_case_evidence add = 10 }
+			change_variable = { name = minghm_case_procedure add = 20 }
+			change_variable = { name = minghm_case_pressure add = 5 }
+			set_variable = { name = minghm_case_stage value = 2 }
+		}
+		trigger_event = { id = minghm_case.4001 days = 1 }
+	}
+	option = {
+		name = minghm_case.4000.b
+		desc = minghm_case.4000.b.tt
+		trigger = { minghm_has_jinyiwei_institution_trigger = yes }
+		title:h_greatming = {
+			change_variable = { name = minghm_case_evidence add = 15 }
+			change_variable = { name = minghm_case_pressure add = 12 }
+			change_variable = { name = minghm_case_fear add = 18 }
+			set_variable = { name = minghm_case_stage value = 2 }
+		}
+		trigger_event = { id = minghm_case.4001 days = 1 }
+	}
+	option = {
+		name = minghm_case.4000.c
+		desc = minghm_case.4000.c.tt
+		title:h_greatming = { minghm_cleanup_active_content_effect = yes }
+	}
+}
+
+character_event = {
+	id = minghm_case.4001
+	title = minghm_case.4001.t
+	desc = minghm_case.4001.desc
+	theme = court
+
+	option = {
+		name = minghm_case.4001.a
+		desc = minghm_case.4001.a.tt
+		title:h_greatming = {
+			change_variable = { name = minghm_case_evidence add = 5 }
+			change_variable = { name = minghm_case_procedure add = 10 }
+		}
+		minghm_resolve_procedural_case_effect = yes
+		trigger_event = { id = minghm_case.4002 days = 1 }
+	}
+	option = {
+		name = minghm_case.4001.b
+		desc = minghm_case.4001.b.tt
+		title:h_greatming = {
+			change_variable = { name = minghm_case_evidence add = 10 }
+			change_variable = { name = minghm_case_pressure add = 10 }
+			change_variable = { name = minghm_case_fear add = 12 }
+		}
+		minghm_resolve_procedural_case_effect = yes
+		trigger_event = { id = minghm_case.4002 days = 1 }
+	}
+}
+
+character_event = {
+	id = minghm_case.4002
+	title = minghm_case.4002.t
+	desc = minghm_case.4002.desc
+	theme = court
+	option = { name = minghm_case.4002.a trigger = { title:h_greatming = { var:minghm_case_result >= 50 } } title:h_greatming = { minghm_finish_procedural_case_effect = yes minghm_cleanup_active_content_effect = yes } }
+	option = { name = minghm_case.4002.b trigger = { title:h_greatming = { var:minghm_case_result >= 20 var:minghm_case_result < 50 } } title:h_greatming = { minghm_finish_procedural_case_effect = yes minghm_cleanup_active_content_effect = yes } }
+	option = { name = minghm_case.4002.c trigger = { title:h_greatming = { var:minghm_case_result >= 0 var:minghm_case_result < 20 } } title:h_greatming = { minghm_finish_procedural_case_effect = yes minghm_cleanup_active_content_effect = yes } }
+	option = { name = minghm_case.4002.d trigger = { title:h_greatming = { var:minghm_case_result < 0 } } title:h_greatming = { minghm_finish_procedural_case_effect = yes minghm_cleanup_active_content_effect = yes } }
+}
