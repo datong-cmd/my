@@ -24,6 +24,14 @@ minghm_has_inheritance_recovery_pending_trigger = {
 	title:h_greatming = { exists = var:minghm_inheritance_recovery_pending }
 }
 
+minghm_has_new_reign_direction_pending_trigger = {
+	is_GM_emperor = yes
+	title:h_greatming = {
+		exists = var:minghm_new_reign_direction_pending
+		NOT = { exists = var:minghm_foreground_content_active }
+	}
+}
+
 minghm_can_open_foreground_content_trigger = {
 	is_GM_emperor = yes
 	title:h_greatming = {

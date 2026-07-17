@@ -15,6 +15,7 @@ character_event = {
 				limit = { exists = var:minghm_foreground_content_active }
 				set_variable = { name = minghm_inheritance_recovery_pending value = 1 }
 			}
+			else = { set_variable = { name = minghm_new_reign_direction_pending value = 1 } }
 		}
 		}
 	}
@@ -87,4 +88,44 @@ character_event = {
 	option = { name = minghm_core.0005.c trigger = { title:h_greatming = { var:minghm_historical_stage = 2 } } }
 	option = { name = minghm_core.0005.d trigger = { title:h_greatming = { var:minghm_historical_stage = 3 } } }
 	option = { name = minghm_core.0005.e trigger = { title:h_greatming = { var:minghm_historical_stage = 4 } } }
+}
+
+# 新君方针只在 h_greatming 易主后的延迟初始化中开放；不改变官位、人物身份或上游变量。
+character_event = {
+	id = minghm_core.0006
+	title = minghm_core.0006.t
+	desc = minghm_core.0006.desc
+	theme = crown
+	trigger = { minghm_has_new_reign_direction_pending_trigger = yes }
+	immediate = { title:h_greatming = { remove_variable = minghm_new_reign_direction_pending } }
+	option = {
+		name = minghm_core.0006.a
+		desc = minghm_core.0006.a.tt
+		title:h_greatming = {
+			set_variable = { name = minghm_reign_direction value = 1 }
+			minghm_change_power_effect = { VARIABLE = minghm_state_capacity DELTA = 2 REASON = 1611 }
+			minghm_change_power_effect = { VARIABLE = minghm_conservative_power DELTA = 2 REASON = 1611 }
+			minghm_change_power_effect = { VARIABLE = minghm_elite_cohesion DELTA = -1 REASON = 1611 }
+		}
+	}
+	option = {
+		name = minghm_core.0006.b
+		desc = minghm_core.0006.b.tt
+		title:h_greatming = {
+			set_variable = { name = minghm_reign_direction value = 2 }
+			minghm_change_power_effect = { VARIABLE = minghm_state_capacity DELTA = 1 REASON = 1612 }
+			minghm_change_power_effect = { VARIABLE = minghm_reform_momentum DELTA = 3 REASON = 1612 }
+			minghm_change_power_effect = { VARIABLE = minghm_elite_cohesion DELTA = 2 REASON = 1612 }
+		}
+	}
+	option = {
+		name = minghm_core.0006.c
+		desc = minghm_core.0006.c.tt
+		title:h_greatming = {
+			set_variable = { name = minghm_reign_direction value = 3 }
+			minghm_change_power_effect = { VARIABLE = minghm_reform_momentum DELTA = 2 REASON = 1613 }
+			minghm_change_power_effect = { VARIABLE = minghm_popular_mobilization DELTA = 3 REASON = 1613 }
+			minghm_change_power_effect = { VARIABLE = minghm_crisis_pressure DELTA = 1 REASON = 1613 }
+		}
+	}
 }

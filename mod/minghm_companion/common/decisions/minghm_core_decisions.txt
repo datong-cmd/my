@@ -20,3 +20,12 @@ minghm_abandon_active_agenda_decision = {
 	effect = { trigger_event = { id = minghm_core.0004 } }
 	ai_will_do = { base = 0 }
 }
+
+minghm_set_new_reign_direction_decision = {
+	picture = { reference = "gfx/interface/illustrations/decisions/decision_realm.dds" }
+	desc = minghm_set_new_reign_direction_decision_desc
+	is_shown = { minghm_is_ming_emperor_trigger = yes }
+	is_valid_showing_failures_only = { minghm_has_new_reign_direction_pending_trigger = yes }
+	effect = { trigger_event = { id = minghm_core.0006 } }
+	ai_will_do = { base = 0 }
+}
