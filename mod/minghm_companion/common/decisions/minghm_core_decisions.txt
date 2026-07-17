@@ -1,0 +1,9 @@
+# 只在继承/篡夺/复国后出现，确保无旧皇帝的临时事件链会永久占用前台槽。
+minghm_review_inherited_agenda_decision = {
+	picture = { reference = "gfx/interface/illustrations/decisions/decision_destiny_goal.dds" }
+	desc = minghm_review_inherited_agenda_decision_desc
+	is_shown = { minghm_is_ming_emperor_trigger = yes }
+	is_valid_showing_failures_only = { minghm_has_inheritance_recovery_pending_trigger = yes }
+	effect = { trigger_event = { id = minghm_core.0003 } }
+	ai_will_do = { base = 0 }
+}

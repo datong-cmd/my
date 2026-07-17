@@ -1,0 +1,9 @@
+l_simp_chinese:
+ minghm_review_inherited_agenda_decision:0 "复核前朝未决事项"
+ minghm_review_inherited_agenda_decision_desc:0 "前任留下了一项尚未完成的政治行动。先复核其状态，再决定续办或封存，避免旧事件上下文影响新君。"
+ minghm_core.0003.t:0 "前朝未决事项"
+ minghm_core.0003.desc:0 "新君继承的不只是头衔，也包括已经启动的制度行动。长期项目可以续办；短期案件和危机应安全封存后重新处置。"
+ minghm_core.0003.a:0 "按原定方向续办"
+ minghm_core.0003.a.tt:0 "仅政策、技术项目与双重权力危机可以续办；恢复其季度推进。"
+ minghm_core.0003.b:0 "封存旧案，另行裁断"
+ minghm_core.0003.b.tt:0 "解除前台锁，国家能力 -1、危机压力 +2。"

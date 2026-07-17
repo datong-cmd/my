@@ -166,6 +166,7 @@ minghm_yearly_maintenance_effect = {
 minghm_cleanup_active_content_effect = {
 	remove_variable = minghm_foreground_content_active
 	remove_variable = minghm_active_content_type
+	remove_variable = minghm_inheritance_recovery_pending
 	remove_variable = minghm_active_mobilization
 	remove_variable = minghm_policy_id
 	remove_variable = minghm_policy_stage

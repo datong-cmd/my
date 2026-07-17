@@ -10,7 +10,45 @@ character_event = {
 		if = {
 			limit = { is_GM_emperor = yes }
 			minghm_initialize_or_migrate_state_effect = yes
+			title:h_greatming = {
+			if = {
+				limit = { exists = var:minghm_foreground_content_active }
+				set_variable = { name = minghm_inheritance_recovery_pending value = 1 }
+			}
+		}
 		}
 	}
 }
 
+# 新君只接手本模组 title 状态，不复活旧事件中的人物、选项或 saved scope。
+character_event = {
+	id = minghm_core.0003
+	title = minghm_core.0003.t
+	desc = minghm_core.0003.desc
+	theme = crown
+	trigger = { minghm_has_inheritance_recovery_pending_trigger = yes }
+
+	option = {
+		name = minghm_core.0003.a
+		desc = minghm_core.0003.a.tt
+		trigger = {
+			title:h_greatming = {
+				OR = {
+					var:minghm_active_content_type = 1
+					var:minghm_active_content_type = 4
+					var:minghm_active_content_type = 5
+				}
+			}
+		}
+		title:h_greatming = { remove_variable = minghm_inheritance_recovery_pending }
+	}
+	option = {
+		name = minghm_core.0003.b
+		desc = minghm_core.0003.b.tt
+		title:h_greatming = {
+			minghm_change_power_effect = { VARIABLE = minghm_state_capacity DELTA = -1 REASON = 1601 }
+			minghm_change_power_effect = { VARIABLE = minghm_crisis_pressure DELTA = 2 REASON = 1601 }
+			minghm_cleanup_active_content_effect = yes
+		}
+	}
+}
