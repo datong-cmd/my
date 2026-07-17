@@ -82,3 +82,68 @@ character_event = {
 	option = { name = minghm_crisis.2002.d trigger = { title:h_greatming = { var:minghm_crisis_result < -10 } } title:h_greatming = { minghm_finish_military_crisis_effect = yes minghm_cleanup_active_content_effect = yes } }
 }
 
+character_event = {
+	id = minghm_crisis.2100
+	title = minghm_crisis.2100.t
+	desc = minghm_crisis.2100.desc
+	theme = court
+	trigger = { minghm_can_open_foreground_content_trigger = yes }
+	immediate = { minghm_prepare_court_crisis_effect = yes }
+	option = {
+		name = minghm_crisis.2100.a
+		desc = minghm_crisis.2100.a.tt
+		title:h_greatming = {
+			change_variable = { name = minghm_response_force add = 15 }
+			change_variable = { name = minghm_crisis_force add = 5 }
+			change_variable = { name = minghm_crisis_commitment add = 20 }
+			set_variable = { name = minghm_crisis_stage value = 2 }
+		}
+		trigger_event = { id = minghm_crisis.2101 days = 1 }
+	}
+	option = {
+		name = minghm_crisis.2100.b
+		desc = minghm_crisis.2100.b.tt
+		trigger = { exists = var:huang_quan_value var:huang_quan_value >= 25 }
+		HQ_change = { CHANGE = -25 CHECK = 437639088 }
+		title:h_greatming = {
+			change_variable = { name = minghm_response_force add = 25 }
+			change_variable = { name = minghm_crisis_force add = 10 }
+			minghm_change_power_effect = { VARIABLE = minghm_elite_cohesion DELTA = -3 REASON = 1220 }
+			set_variable = { name = minghm_crisis_stage value = 2 }
+		}
+		trigger_event = { id = minghm_crisis.2101 days = 1 }
+	}
+	option = { name = minghm_crisis.2100.c title:h_greatming = { minghm_cleanup_active_content_effect = yes } }
+}
+
+character_event = {
+	id = minghm_crisis.2101
+	title = minghm_crisis.2101.t
+	desc = minghm_crisis.2101.desc
+	theme = court
+	option = {
+		name = minghm_crisis.2101.a
+		desc = minghm_crisis.2101.a.tt
+		title:h_greatming = { change_variable = { name = minghm_response_force add = 10 } minghm_change_power_effect = { VARIABLE = minghm_state_capacity DELTA = -2 REASON = 1225 } set_variable = { name = minghm_crisis_stage value = 3 } }
+		minghm_resolve_court_crisis_effect = yes
+		trigger_event = { id = minghm_crisis.2102 days = 1 }
+	}
+	option = {
+		name = minghm_crisis.2101.b
+		desc = minghm_crisis.2101.b.tt
+		title:h_greatming = { change_variable = { name = minghm_response_force add = 5 } change_variable = { name = minghm_crisis_force subtract = 15 } minghm_change_power_effect = { VARIABLE = minghm_conservative_power DELTA = 3 REASON = 1226 } set_variable = { name = minghm_crisis_stage value = 3 } }
+		minghm_resolve_court_crisis_effect = yes
+		trigger_event = { id = minghm_crisis.2102 days = 1 }
+	}
+}
+
+character_event = {
+	id = minghm_crisis.2102
+	title = minghm_crisis.2102.t
+	desc = minghm_crisis.2102.desc
+	theme = court
+	option = { name = minghm_crisis.2102.a trigger = { title:h_greatming = { var:minghm_crisis_result >= 35 } } title:h_greatming = { minghm_finish_court_crisis_effect = yes minghm_cleanup_active_content_effect = yes } }
+	option = { name = minghm_crisis.2102.b trigger = { title:h_greatming = { var:minghm_crisis_result >= 10 var:minghm_crisis_result < 35 } } title:h_greatming = { minghm_finish_court_crisis_effect = yes minghm_cleanup_active_content_effect = yes } }
+	option = { name = minghm_crisis.2102.c trigger = { title:h_greatming = { var:minghm_crisis_result >= -10 var:minghm_crisis_result < 10 } } title:h_greatming = { minghm_finish_court_crisis_effect = yes minghm_cleanup_active_content_effect = yes } }
+	option = { name = minghm_crisis.2102.d trigger = { title:h_greatming = { var:minghm_crisis_result < -10 } } title:h_greatming = { minghm_finish_court_crisis_effect = yes minghm_cleanup_active_content_effect = yes } }
+}

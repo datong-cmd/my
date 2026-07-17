@@ -59,3 +59,61 @@ minghm_finish_military_crisis_effect = {
 	}
 }
 
+# 朝局危机没有人物名册或派系对象：只让现有精英协调、守成力量与国家能力相互对抗。
+minghm_prepare_court_crisis_effect = {
+	title:h_greatming = {
+		set_variable = { name = minghm_foreground_content_active value = 1 }
+		set_variable = { name = minghm_active_content_type value = 3 }
+		set_variable = { name = minghm_crisis_active value = 1 }
+		set_variable = { name = minghm_crisis_type value = 1 }
+		set_variable = { name = minghm_crisis_stage value = 1 }
+		set_variable = { name = minghm_crisis_commitment value = 0 }
+		set_variable = { name = minghm_crisis_force value = var:minghm_conservative_power }
+		set_variable = { name = minghm_crisis_work value = var:minghm_crisis_pressure }
+		change_variable = { name = minghm_crisis_work multiply = 0.5 }
+		change_variable = { name = minghm_crisis_force add = var:minghm_crisis_work }
+		set_variable = { name = minghm_response_force value = var:minghm_state_capacity }
+		set_variable = { name = minghm_crisis_work value = var:minghm_elite_cohesion }
+		change_variable = { name = minghm_crisis_work multiply = 0.5 }
+		change_variable = { name = minghm_response_force add = var:minghm_crisis_work }
+		remove_variable = minghm_crisis_work
+	}
+}
+
+minghm_resolve_court_crisis_effect = {
+	title:h_greatming = {
+		set_variable = { name = minghm_crisis_result value = var:minghm_response_force }
+		change_variable = { name = minghm_crisis_result subtract = var:minghm_crisis_force }
+		set_variable = { name = minghm_crisis_random value = { 0 10 } }
+		change_variable = { name = minghm_crisis_result add = var:minghm_crisis_random }
+	}
+}
+
+minghm_finish_court_crisis_effect = {
+	title:h_greatming = {
+		if = {
+			limit = { var:minghm_crisis_result >= 35 }
+			minghm_change_power_effect = { VARIABLE = minghm_state_capacity DELTA = 3 REASON = 1221 }
+			minghm_change_power_effect = { VARIABLE = minghm_elite_cohesion DELTA = 4 REASON = 1221 }
+			minghm_change_power_effect = { VARIABLE = minghm_conservative_power DELTA = -5 REASON = 1221 }
+			minghm_change_power_effect = { VARIABLE = minghm_crisis_pressure DELTA = -4 REASON = 1221 }
+		}
+		else_if = {
+			limit = { var:minghm_crisis_result >= 10 }
+			minghm_change_power_effect = { VARIABLE = minghm_elite_cohesion DELTA = 2 REASON = 1222 }
+			minghm_change_power_effect = { VARIABLE = minghm_conservative_power DELTA = -1 REASON = 1222 }
+		}
+		else_if = {
+			limit = { var:minghm_crisis_result >= -10 }
+			minghm_change_power_effect = { VARIABLE = minghm_conservative_power DELTA = 3 REASON = 1223 }
+			minghm_change_power_effect = { VARIABLE = minghm_crisis_pressure DELTA = 3 REASON = 1223 }
+			minghm_change_power_effect = { VARIABLE = minghm_elite_cohesion DELTA = -2 REASON = 1223 }
+		}
+		else = {
+			minghm_change_power_effect = { VARIABLE = minghm_state_capacity DELTA = -4 REASON = 1224 }
+			minghm_change_power_effect = { VARIABLE = minghm_conservative_power DELTA = 6 REASON = 1224 }
+			minghm_change_power_effect = { VARIABLE = minghm_crisis_pressure DELTA = 7 REASON = 1224 }
+			minghm_change_power_effect = { VARIABLE = minghm_elite_cohesion DELTA = -4 REASON = 1224 }
+		}
+	}
+}
